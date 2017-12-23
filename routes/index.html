@@ -1,58 +1,98 @@
 <:Head>
-	<title>Sapper project template</title>
+	<title>Recent Article</title>
 </:Head>
 
-<Layout page='home'>
-	<h1>Great success!</h1>
+<div page='blog'>
+	<div>
+		{{#each posts as post, index}}
+		<div class='article {{post.expanded ? "expanded" : ""}}'>
+			<div class='title' on:click='toggle(this, index)'>
+				{{post.title}}
+			</div>
 
-	<figure>
-		<img src='/great-success.png'>
-		<figcaption>HIGH FIVE!</figcaption>
-	</figure>
+			<div class='article-expand'>
+				{{{post.html}}}
+			</div>
 
-	<p><strong>Try editing this file (routes/index.html) to test hot module reloading.</strong></p>
-</Layout>
+			<link rel='prefetch' href='{{post.apiLink}}'>
+
+		</div>
+		{{/each}}
+	</div>
+</div>
 
 <style>
-	h1, figure, p {
-		text-align: center;
-		margin: 0 auto;
+	.article {
+		position: relative;
 	}
 
-	h1 {
-		font-size: 2.8em;
-		text-transform: uppercase;
-		font-weight: 700;
-		margin: 0 0 0.5em 0;
+	.title{
+		padding: 5px;
+		border-bottom: 1px solid #fff;
+		background: #000;
+		color: #fff;
+		padding-bottom: 5px;
+		padding-top: 5px;
+		font-size: 16px;
+		position: sticky;
+		top: 0px;
+
 	}
 
-	figure {
-		margin: 0 0 1em 0;
+	.article-expand{
+		display: none;
+		padding: 5px;
 	}
 
-	img {
-		width: 100%;
-		max-width: 400px;
-		margin: 0 0 1em 0;
-	}
-
-	p {
-		margin: 1em auto;
-	}
-
-	@media (min-width: 480px) {
-		h1 {
-			font-size: 4em;
-		}
+	.expanded .article-expand{
+		display: block;
+		background: white;
+		color: #000;
 	}
 </style>
 
 <script>
-	import Layout from './_components/Layout.html';
 
 	export default {
 		components: {
-			Layout
+		},
+
+		preload({ params, query }) {
+
+			return fetch(`/api/feed`).then(r => r.json()).then(posts => {
+				posts.forEach((d, i) => {
+					d.html = ''
+					d.apiLink = `/api/article?${d.link}`
+					d.expanded = false
+				})
+
+				return {posts}
+			})
+		},
+
+		oncreate() {
+			var {posts} = this.get()
+			posts.forEach(post => {
+				fetch(post.apiLink).then(r => r.text()).then(html => {
+					post.html = html
+					this.set({posts})
+				})
+			})
+
+			console.log(posts)
+		},
+
+		methods: {
+			toggle(node, index){
+				var {posts} = this.get()
+
+				var post = posts[index]
+				post.expanded = !post.expanded
+
+				this.set({posts})
+
+				node.scrollIntoView(true)
+			}
 		}
-	};
+	}
 </script>

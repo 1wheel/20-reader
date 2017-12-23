@@ -7,11 +7,12 @@ https://svelte.technology/repl?version=1.49.1&gist=abcad75a4a82f1634b839ab567632
 How can add async data to array without index fiddling?
 
 
-- set as home page
-- delete other things
-- position sticky 
+x set as home page
+x delete other things
+x position sticky 
 - bigger mobile fonts
-- scroll to on detoggle?
+x scroll to on detoggle?
 - styles don't update without reload
 - deploy with rsync
 - forward ports 
+- nav for other feeds

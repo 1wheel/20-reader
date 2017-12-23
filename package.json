@@ -1,11 +1,12 @@
 {
-  "name": "TODO",
-  "description": "TODO",
+  "name": "20-reader",
+  "description": "20-reader",
   "version": "0.0.1",
   "scripts": {
     "dev": "node server.js",
     "build": "sapper build",
     "start": "cross-env NODE_ENV=production node server.js",
+    "now": "now --public --alias 20-reader",
     "cy:run": "cypress run",
     "cy:open": "cypress open",
     "test": "run-p --race dev cy:run"
