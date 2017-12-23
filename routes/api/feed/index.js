@@ -22,7 +22,7 @@ export async function get(req, res) {
       'Content-Type': 'application/json',
       // 'Content-Length': json.length
     });
-
+    
     res.send(JSON.stringify(items));
   } catch (err) {
     res.status(500).send(err.message);
