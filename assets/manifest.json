@@ -1,8 +1,8 @@
 {
-	"background_color": "#ffffff",
-	"theme_color": "#aa1e1e",
-	"name": "TODO",
-	"short_name": "TODO",
+	"background_color": "#000000",
+	"theme_color": "#000000",
+	"name": "20-reader",
+	"short_name": "20-reader",
 	"display": "minimal-ui",
 	"start_url": "/",
 	"icons": [

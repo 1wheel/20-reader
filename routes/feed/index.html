@@ -5,13 +5,11 @@
 <div page='blog'>
 	<div>
 		{{#each posts as post, index}}
-		<div class='article {{index == expanded ? "expanded" : ""}}'>
-			<div class='title' on:click='toggle(index)'>
+		<div class='article {{post.expanded ? "expanded" : ""}}'>
+			<div class='title' on:click='toggle(this, index)'>
 				{{post.title}}
-				<!-- {{index == expanded}} -->
 			</div>
 
-			<link rel="prefetch" href="/images/big.jpeg">
 			<div class='article-expand'>
 				{{{post.html}}}
 			</div>
@@ -25,7 +23,6 @@
 
 <style>
 	.article {
-		/*margin: 5px;*/
 		position: relative;
 	}
 
@@ -37,8 +34,6 @@
 		padding-bottom: 5px;
 		padding-top: 5px;
 		font-size: 16px;
-		/*height: 1.5em;*/
-		/*overflow: hidden;*/
 		position: sticky;
 		top: 0px;
 
@@ -57,48 +52,46 @@
 </style>
 
 <script>
-	// import Layout from '../_components/Layout.html';
 
 	export default {
 		components: {
-			// Layout
 		},
 
 		preload({ params, query }) {
+
 			return fetch(`/api/feed`).then(r => r.json()).then(posts => {
 				posts.forEach((d, i) => {
-					d.expanded = 0
 					d.html = ''
 					d.apiLink = `/api/article?${d.link}`
-
-					fetch(d.apiLink) // cache links in background
+					d.expanded = false
 				})
 
-				var expanded = null
-
-				return {posts, expanded};
+				return {posts};
 			});
 		},
 
+		oncreate() {
+			var {posts} = this.get()
+			posts.forEach(post => {
+				fetch(post.apiLink).then(r => r.text()).then(html => {
+					post.html = html
+					this.set({posts})
+				})
+			})
+
+			console.log(posts)
+		},
+
 		methods: {
-			toggle(index){
-				var currentExpanded = this.get('expanded')
-				var expanded = currentExpanded == index ? null : index
-				this.set({expanded})
+			toggle(node, index){
+				var {posts} = this.get()
 
-				if (expanded === null) return
+				var post = posts[index]
+				post.expanded = !post.expanded
 
-				var posts = this.get('posts')
+				this.set({posts})
 
-				fetch(posts[expanded].apiLink)
-					.then(r => r.text())
-					.then(html => {
-						var posts = this.get('posts')
-						posts[expanded].html = html
-
-						this.set({posts})
-					})
-
+				node.scrollIntoView(true)
 			}
 		}
 	};

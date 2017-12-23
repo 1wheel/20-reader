@@ -13,3 +13,5 @@ How can add async data to array without index fiddling?
 - bigger mobile fonts
 - scroll to on detoggle?
 - styles don't update without reload
+- deploy with rsync
+- forward ports 
