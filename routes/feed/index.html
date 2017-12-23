@@ -26,6 +26,7 @@
 <style>
 	.article {
 		/*margin: 5px;*/
+		position: relative;
 	}
 
 	.title{
@@ -38,6 +39,9 @@
 		font-size: 16px;
 		/*height: 1.5em;*/
 		/*overflow: hidden;*/
+		position: sticky;
+		top: 0px;
+
 	}
 
 	.article-expand{
@@ -67,7 +71,7 @@
 					d.html = ''
 					d.apiLink = `/api/article?${d.link}`
 
-					fetch(d.apiLink)
+					fetch(d.apiLink) // cache links in background
 				})
 
 				var expanded = null
