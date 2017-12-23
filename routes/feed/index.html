@@ -1,21 +1,37 @@
 <:Head>
-	<title>Blog</title>
+	<title>Recent Article</title>
 </:Head>
 
-<Layout page='blog'>
-	<h1>Recent posts</h1>
-
-	<ul>
+<div page='blog'>
+	<div>
 		{{#each posts as post}}
-			<li><a rel='prefetch' href='/blog/{{post.slug}}'>{{post.title}}</a></li>
+		<div class='article'>
+			<div class='title'>
+				{{post.title}}
+			</div>
+			<div rel='prefetch' href='/blog/{{post.slug}}'></div>
+
+		</div>
 		{{/each}}
-	</ul>
-</Layout>
+	</div>
+</div>
 
 <style>
-	ul {
-		margin: 0 0 1em 0;
-		line-height: 1.5;
+	.article {
+		/*margin: 5px;*/
+		padding: 5px;
+		border-bottom: 1px solid #fff;
+		
+	}
+
+	.title{
+		background: #000;
+		color: #fff;
+		padding-bottom: 5px;
+		padding-top: 5px;
+		font-size: 16px;
+		/*height: 1.5em;*/
+		/*overflow: hidden;*/
 	}
 </style>
 

@@ -20,9 +20,10 @@ export async function get(req, res) {
 
     res.set({
       'Content-Type': 'application/json',
+      'Cache-Control': `max-age=${30 * 60 * 1e3}` // cache for 30 minutes
       // 'Content-Length': json.length
     });
-    
+
     res.send(JSON.stringify(items));
   } catch (err) {
     res.status(500).send(err.message);
