@@ -5,12 +5,18 @@
 <div page='blog'>
 	<div>
 		{{#each posts as post, index}}
-		<div class='article'>
+		<div class='article {{index == expanded ? "expanded" : ""}}'>
 			<div class='title' on:click='toggle(index)'>
 				{{post.title}}
-				{{index == expanded}}
+				<!-- {{index == expanded}} -->
 			</div>
-			<div rel='prefetch' href='/blog/{{post.slug}}'></div>
+
+			<link rel="prefetch" href="/images/big.jpeg">
+			<div class='article-expand'>
+				{{{post.html}}}
+			</div>
+
+			<link rel='prefetch' href='{{post.apiLink}}'>
 
 		</div>
 		{{/each}}
@@ -20,12 +26,11 @@
 <style>
 	.article {
 		/*margin: 5px;*/
-		padding: 5px;
-		border-bottom: 1px solid #fff;
-
 	}
 
 	.title{
+		padding: 5px;
+		border-bottom: 1px solid #fff;
 		background: #000;
 		color: #fff;
 		padding-bottom: 5px;
@@ -33,6 +38,17 @@
 		font-size: 16px;
 		/*height: 1.5em;*/
 		/*overflow: hidden;*/
+	}
+
+	.article-expand{
+		display: none;
+		padding: 5px;
+	}
+
+	.expanded .article-expand{
+		display: block;
+		background: white;
+		color: #000;
 	}
 </style>
 
@@ -46,8 +62,12 @@
 
 		preload({ params, query }) {
 			return fetch(`/api/feed`).then(r => r.json()).then(posts => {
-				posts.forEach(d => {
+				posts.forEach((d, i) => {
 					d.expanded = 0
+					d.html = ''
+					d.apiLink = `/api/article?${d.link}`
+
+					fetch(d.apiLink)
 				})
 
 				var expanded = null
@@ -61,6 +81,20 @@
 				var currentExpanded = this.get('expanded')
 				var expanded = currentExpanded == index ? null : index
 				this.set({expanded})
+
+				if (expanded === null) return
+
+				var posts = this.get('posts')
+
+				fetch(posts[expanded].apiLink)
+					.then(r => r.text())
+					.then(html => {
+						var posts = this.get('posts')
+						posts[expanded].html = html
+
+						this.set({posts})
+					})
+
 			}
 		}
 	};

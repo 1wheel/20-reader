@@ -9,29 +9,13 @@ async function getArticleText(url){
   const response = await fetch(url)
   const html = await response.text()
 
-  console.log(html.split('<p class="p-block">').length)
-
-  var lines = html
-    .split('<p class="p-block">')
-    .slice(1)
-    .map(d => d.split('</p>')[0])
-    // .filter(d => d.includes('story-body-text'))
-  // console.log(lines)
-
-  var lines = html
-    .split('<p')
-    .slice(1)
-    .map(d => d.split('>')[1].split('</p>')[0])
-    // .filter(d => d.includes('story-body-text'))
-
   var lines = html
     .split('<p class="Paragraph-paragraph')
     .slice(1)
     .map(d => d.split('>').slice(1).join('>').split('</p>')[0])
     .map(d => `<p>${d}</p>`)
-    // .filter(d => d.includes('story-body-text'))
 
-
+  console.log(lines.length)
   // console.log(lines)
   // return html
   return articleCache[url] = lines.join('\n')
@@ -39,7 +23,6 @@ async function getArticleText(url){
 
 
 export async function get(req, res) {
-
   try {
     var url = Object.keys(req.query)[0].replace('www', 'mobile')
     console.log(url)
@@ -48,6 +31,7 @@ export async function get(req, res) {
 
     res.set({
       'Content-Type': 'application/html',
+      'Cache-Control': `max-age=${30 * 60 * 1e3}` // cache for 30 minutes
       // 'Content-Length': json.length
     });
 
@@ -56,3 +40,19 @@ export async function get(req, res) {
     res.status(500).send(err.message);
   }
 }
+
+
+  // console.log(html.split('<p class="p-block">').length)
+
+  // var lines = html
+  //   .split('<p class="p-block">')
+  //   .slice(1)
+  //   .map(d => d.split('</p>')[0])
+  //   // .filter(d => d.includes('story-body-text'))
+  // // console.log(lines)
+
+  // var lines = html
+  //   .split('<p')
+  //   .slice(1)
+  //   .map(d => d.split('>')[1].split('</p>')[0])
+  //   // .filter(d => d.includes('story-body-text'))
