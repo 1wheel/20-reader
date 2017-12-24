@@ -1,5 +1,6 @@
 // import posts from './_posts.js';
 const fetch = require('node-fetch');
+const fs = require('fs')
 
 var articleCache = {}
 
@@ -10,27 +11,34 @@ async function getArticleText(url){
   const html = await response.text()
 
   var lines = html
+    .replace(/<h4 /g, '<p ')
+    .replace(/<h2 /g, '<p class="Paragraph-paragraph ')
     .split('<p class="Paragraph-paragraph')
     .slice(1)
     .map(d => d.split('>').slice(1).join('>').split('</p>')[0])
     .map(d => `<p>${d}</p>`)
 
-  console.log(lines.length)
-  // console.log(lines)
-  // return html
-  return articleCache[url] = lines.join('\n')
+  lines.forEach((d, i) => {
+    if (!d.includes('</h2>')) return
+    lines[i] = d.replace('<p>', '<p><h2>')
+  })
+
+  // if (html.includes('publicly funded vouchers')) 
+  // fs.writeFileSync('temp/cross.html', html) 
+
+  return articleCache[url] = lines.join('\n\n')
 }
 
 
 export async function get(req, res) {
   try {
     var url = Object.keys(req.query)[0].replace('www', 'mobile')
-    console.log(url)
+    // console.log(url)
 
     var html = await getArticleText(url)
 
     res.set({
-      'Content-Type': 'application/html',
+      'Content-Type': 'application/json',
       'Cache-Control': `max-age=${30 * 60 * 1e3}` // cache for 30 minutes
       // 'Content-Length': json.length
     });

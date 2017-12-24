@@ -10,8 +10,10 @@ function parseXML(xml){
 
 export async function get(req, res) {
   try {
+    console.time('rss dl')
     const response = await fetch('http://www.nytimes.com/timeswire/feeds/')
     const xml = await response.text();
+    console.timeEnd('rss dl')
 
     var items = parseXML(xml).rss.channel[0].item
     items.forEach(d => {

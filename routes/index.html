@@ -7,10 +7,13 @@
 		{{#each posts as post, index}}
 		<div class='article {{post.expanded ? "expanded" : ""}}'>
 			<div class='title' on:click='toggle(this, index)'>
+				{{post.type}}
 				{{post.title}}
 			</div>
 
 			<div class='article-expand'>
+				<a href='{{post.link}}'>{{post.byline}} // {{post.section.toUpperCase()}}</a>
+
 				{{{post.html}}}
 			</div>
 
@@ -24,6 +27,8 @@
 <style>
 	.article {
 		position: relative;
+		max-width: 600px;
+		margin: 0px auto;
 	}
 
 	.title{
@@ -64,6 +69,20 @@
 					d.html = ''
 					d.apiLink = `/api/article?${d.link}`
 					d.expanded = false
+
+					d.i = i
+					d.section = d.link.split('/').slice(-2)[0]
+					d.isOpinion = 
+					d.byline = d['dc:creator'].trim()
+
+					d.type = ''
+					if (d.section == 'opinion') d.type = 'OPINION: '
+					if (d.byline == 'By THE ASSOCIATED PRESS') d.type = 'AP: '
+
+				})
+
+				posts.sort((a, b) => {
+					return a.type < b.type ? -1 : a.type > b.type ? 1 : a.i - b.i
 				})
 
 				return {posts}
@@ -78,8 +97,6 @@
 					this.set({posts})
 				})
 			})
-
-			console.log(posts)
 		},
 
 		methods: {
@@ -88,10 +105,14 @@
 
 				var post = posts[index]
 				post.expanded = !post.expanded
+				posts.forEach((d, i) => {
+					// i != index ? d.expanded = 0 : 0
+				})
 
 				this.set({posts})
 
 				node.scrollIntoView(true)
+				// setTimeout(() => node.scrollIntoView(true), 1)
 			}
 		}
 	}
