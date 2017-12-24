@@ -15,11 +15,13 @@ x scroll to on detoggle?
 - deploy with rsync
 - forward ports 
 - nav for other feeds
-- cookies to track read articles
+x cookies to track read articles
 x class="styles-italic--2TT1g"> and class="styles-bold--rNKfn">To
 x don't lose section heads
 `<h2 class="Heading2-heading2--2UY6W elementStyles-heading2--slXZ7 elementStyles-toneNews--sRTft">Xprize Foundation, Inc.</h2>`
+
 - images?
+- show article length?
 
 - updating #aa1e1e in manifest.json doesn't get used
 - styles don't update without reload
@@ -47,3 +49,4 @@ handleMessage @ client.js:131
 handleMessage @ client.js:94
 ```
 Requests to API routes don't start until the process is killed and all the requests finish.
+This only happens after editting route.html files

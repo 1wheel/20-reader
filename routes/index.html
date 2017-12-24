@@ -5,7 +5,7 @@
 <div page='blog'>
 	<div>
 		{{#each posts as post, index}}
-		<div class='article {{post.expanded ? "expanded" : ""}}'>
+		<div class='article {{post.expanded ? "expanded" : ""}} {{post.read ? "read" : ""}}'>
 			<div class='title' on:click='toggle(this, index)'>
 				{{post.type}}
 				{{post.title}}
@@ -41,7 +41,10 @@
 		font-size: 16px;
 		position: sticky;
 		top: 0px;
-
+		cursor: pointer;
+	}
+	.read .title{
+		background: #444;
 	}
 
 	.article-expand{
@@ -63,7 +66,6 @@
 		},
 
 		preload({ params, query }) {
-
 			return fetch(`/api/feed`).then(r => r.json()).then(posts => {
 				posts.forEach((d, i) => {
 					d.html = ''
@@ -72,7 +74,6 @@
 
 					d.i = i
 					d.section = d.link.split('/').slice(-2)[0]
-					d.isOpinion = 
 					d.byline = d['dc:creator'].trim()
 
 					d.type = ''
@@ -91,12 +92,20 @@
 
 		oncreate() {
 			var {posts} = this.get()
+
+			var cookie = document.cookie
+			posts.forEach(post => {
+				post.read = cookie.includes(post.link)
+			})
+			this.set({posts})
+
 			posts.forEach(post => {
 				fetch(post.apiLink).then(r => r.text()).then(html => {
 					post.html = html
 					this.set({posts})
 				})
 			})
+
 		},
 
 		methods: {
@@ -108,6 +117,9 @@
 				posts.forEach((d, i) => {
 					// i != index ? d.expanded = 0 : 0
 				})
+
+				post.read = true
+				document.cookie = post.link + '=1'
 
 				this.set({posts})
 
