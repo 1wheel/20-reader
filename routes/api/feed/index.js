@@ -10,8 +10,16 @@ function parseXML(xml){
 
 export async function get(req, res) {
   try {
+    var feed = Object.keys(req.query)[0] || 'recent'
+
+    var url = {
+      recent: 'http://www.nytimes.com/timeswire/feeds/',
+      homepage: 'http://rss.nytimes.com/services/xml/rss/nyt/HomePage.xml',
+      popular: 'http://rss.nytimes.com/services/xml/rss/nyt/MostViewed.xml'
+    }[feed]
+
     console.time('rss dl')
-    const response = await fetch('http://www.nytimes.com/timeswire/feeds/')
+    const response = await fetch(url)
     const xml = await response.text();
     console.timeEnd('rss dl')
 

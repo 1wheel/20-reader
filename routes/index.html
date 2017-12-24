@@ -1,131 +1,134 @@
 <:Head>
-	<title>Recent Article</title>
+  <title>Recent Article</title>
 </:Head>
 
-<div page='blog'>
-	<div>
-		{{#each posts as post, index}}
-		<div class='article {{post.expanded ? "expanded" : ""}} {{post.read ? "read" : ""}}'>
-			<div class='title' on:click='toggle(this, index)'>
-				{{post.type}}
-				{{post.title}}
-			</div>
+<Layout page='{{feed}}'>
+  <div>
+    {{#each posts as post, index}}
+    <div class='article {{post.expanded ? "expanded" : ""}} {{post.read ? "read" : ""}}'>
+      <div class='title' on:click='toggle(this, index)'>
+        {{post.type}}
+        {{post.title}}
+      </div>
 
-			<div class='article-expand'>
-				<a href='{{post.link}}'>{{post.byline}} // {{post.section.toUpperCase()}}</a>
+      <div class='article-expand'>
+        <a href='{{post.link}}'>{{post.byline}} // {{post.section.toUpperCase()}}</a>
 
-				{{{post.html}}}
-			</div>
+        {{{post.html}}}
+      </div>
 
-			<link rel='prefetch' href='{{post.apiLink}}'>
+      <link rel='prefetch' href='{{post.apiLink}}'>
 
-		</div>
-		{{/each}}
-	</div>
-</div>
+    </div>
+    {{/each}}
+  </div>
+</Layout>
 
 <style>
-	.article {
-		position: relative;
-		max-width: 600px;
-		margin: 0px auto;
-	}
+  .article {
+    position: relative;
+  }
 
-	.title{
-		padding: 5px;
-		border-bottom: 1px solid #fff;
-		background: #000;
-		color: #fff;
-		padding-bottom: 5px;
-		padding-top: 5px;
-		font-size: 16px;
-		position: sticky;
-		top: 0px;
-		cursor: pointer;
-	}
-	.read .title{
-		background: #444;
-	}
+  .title{
+    padding: 5px;
+    border-bottom: 1px solid #fff;
+    background: #000;
+    color: #fff;
+    padding-bottom: 5px;
+    padding-top: 5px;
+    font-size: 16px;
+    position: sticky;
+    top: 0px;
+    cursor: pointer;
+  }
+  .read .title{
+    background: #444;
+  }
 
-	.article-expand{
-		display: none;
-		padding: 5px;
-	}
+  .article-expand{
+    display: none;
+    padding: 5px;
+  }
 
-	.expanded .article-expand{
-		display: block;
-		background: white;
-		color: #000;
-	}
+  .expanded .article-expand{
+    display: block;
+    background: white;
+    color: #000;
+  }
 </style>
 
 <script>
+  import Layout from './_components/Layout.html';
 
-	export default {
-		components: {
-		},
+  export default {
+    components: {
+      Layout
+    },
 
-		preload({ params, query }) {
-			return fetch(`/api/feed`).then(r => r.json()).then(posts => {
-				posts.forEach((d, i) => {
-					d.html = ''
-					d.apiLink = `/api/article?${d.link}`
-					d.expanded = false
+    preload({ params, query }) {
+      var feed = query.feed || 'recent'
 
-					d.i = i
-					d.section = d.link.split('/').slice(-2)[0]
-					d.byline = d['dc:creator'].trim()
+      return fetch(`/api/feed?${feed}`).then(r => r.json()).then(posts => {
+        posts.forEach((d, i) => {
+          d.html = ''
+          d.apiLink = `/api/article?${d.link}`
+          d.expanded = false
 
-					d.type = ''
-					if (d.section == 'opinion') d.type = 'OPINION: '
-					if (d.byline == 'By THE ASSOCIATED PRESS') d.type = 'AP: '
+          d.i = i
+          d.section = d.link.split('/').slice(-2)[0]
+          d.byline = d['dc:creator'].trim()
 
-				})
+          d.type = ''
+          if (d.section == 'opinion') d.type = 'OPINION: '
+          if (d.byline == 'By THE ASSOCIATED PRESS') d.type = 'AP: '
 
-				posts.sort((a, b) => {
-					return a.type < b.type ? -1 : a.type > b.type ? 1 : a.i - b.i
-				})
+        })
 
-				return {posts}
-			})
-		},
+        posts.sort((a, b) => {
+          return a.type < b.type ? -1 : a.type > b.type ? 1 : a.i - b.i
+        })
 
-		oncreate() {
-			var {posts} = this.get()
 
-			var cookie = document.cookie
-			posts.forEach(post => {
-				post.read = cookie.includes(post.link)
-			})
-			this.set({posts})
+        return {posts, feed}
+      })
+    },
 
-			posts.forEach(post => {
-				fetch(post.apiLink).then(r => r.text()).then(html => {
-					post.html = html
-					this.set({posts})
-				})
-			})
+    oncreate() {
+      var {posts} = this.get()
 
-		},
+      var cookie = document.cookie
+      posts.forEach(post => {
+        post.read = cookie.includes(post.link)
+      })
+      this.set({posts})
 
-		methods: {
-			toggle(node, index){
-				var {posts} = this.get()
+      posts.forEach(post => {
+        fetch(post.apiLink).then(r => r.text()).then(html => {
+          post.html = html
+          this.set({posts})
+        })
+      })
 
-				var post = posts[index]
-				post.expanded = !post.expanded
-				posts.forEach((d, i) => {
-					// i != index ? d.expanded = 0 : 0
-				})
+    },
 
-				post.read = true
-				document.cookie = post.link + '=1'
+    methods: {
+      toggle(node, index){
+        var {posts} = this.get()
 
-				this.set({posts})
+        var post = posts[index]
+        post.expanded = !post.expanded
+        posts.forEach((d, i) => {
+          // i != index ? d.expanded = 0 : 0
+        })
 
-				node.scrollIntoView(true)
-				// setTimeout(() => node.scrollIntoView(true), 1)
-			}
-		}
-	}
+        post.read = true
+        document.cookie = post.link + '=1'
+
+        this.set({posts})
+
+        node.scrollIntoView(true)
+        // setTimeout(() => node.scrollIntoView(true), 1)
+      }
+    }
+  }
 </script>

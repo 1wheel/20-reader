@@ -1,11 +1,10 @@
 <nav>
 	<ul>
-		<li><a class='{{page === "home"  ? "selected" : ""}}' href='/'>home</a></li>
-		<li><a class='{{page === "about"  ? "selected" : ""}}' href='/about'>about</a></li>
+		<li><a rel=prefetch class='{{page === "recent"  ? "selected" : ""}}' href='/?feed=recent'>Most Recent</a></li>
 
-		<!-- for the blog link, we're using rel=prefetch so that Sapper prefetches
-		     the blog data when we hover over the link or tap it on a touchscreen -->
-		<li><a rel=prefetch class='{{page === "blog"  ? "selected" : ""}}' href='/blog'>blog</a></li>
+		<li><a rel=prefetch class='{{page === "homepage"  ? "selected" : ""}}' href='/?feed=homepage'>Homepage</a></li>
+
+		<li><a rel=prefetch class='{{page === "popular"  ? "selected" : ""}}' href='/?feed=popular'>Popular</a></li>
 	</ul>
 </nav>
 
@@ -13,12 +12,15 @@
 	nav {
 		border-bottom: 1px solid rgba(170,30,30,0.1);
 		font-weight: 300;
-		padding: 0 1em;
+		color: #fff;
+		background: #000;
+
 	}
 
 	ul {
 		margin: 0;
 		padding: 0;
+		text-align: center;
 	}
 
 	/* clearfix */
@@ -31,26 +33,33 @@
 	li {
 		display: block;
 		float: left;
+		font-weight: 600;
+		font-size: 20px;
 	}
 
 	.selected {
 		position: relative;
 		display: inline-block;
+		/*color: #fff;*/
+		z-index: 100;
 	}
 
-	.selected::after {
+	.selected::before {
 		position: absolute;
 		content: '';
-		width: calc(100% - 1em);
-		height: 2px;
-		background-color: rgb(170,30,30);
+		width: calc(100% + 10px);
+		height: 5px;
+		background-color: #fff;
 		display: block;
-		bottom: -1px;
+		bottom: -5px;
+		left: -5px;
+		z-index: -10;
 	}
 
 	a {
 		text-decoration: none;
-		padding: 1em 0.5em;
+		margin: 1em 5px;
+		margin-right: 1em;
 		display: block;
 	}
 </style>
