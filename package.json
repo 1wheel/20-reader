@@ -9,7 +9,8 @@
     "now": "now --public --alias 20-reader",
     "cy:run": "cypress run",
     "cy:open": "cypress open",
-    "test": "run-p --race dev cy:run"
+    "test": "run-p --race dev cy:run",
+    "deploy": "rsync"
   },
   "dependencies": {
     "compression": "^1.7.1",
