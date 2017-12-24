@@ -11,8 +11,11 @@ async function getArticleText(url){
   const html = await response.text()
 
   var lines = html
-    .replace(/<h4 /g, '<p ')
-    .replace(/<h2 /g, '<p class="Paragraph-paragraph ')
+    // .replace(/<h4 /g, '<p ')
+    .replace(
+      /<h2 class="Heading2-heading2/g, 
+      '<p class="Paragraph-paragraph> <h2 class="Heading2-heading2'
+    )
     .split('<p class="Paragraph-paragraph')
     .slice(1)
     .map(d => d.split('>').slice(1).join('>').split('</p>')[0])
@@ -20,11 +23,12 @@ async function getArticleText(url){
 
   lines.forEach((d, i) => {
     if (!d.includes('</h2>')) return
-    lines[i] = d.replace('<p>', '<p><h2>')
+    // lines[i] = d.replace('<p>', '<p><h2>')
   })
 
   // if (html.includes('publicly funded vouchers')) 
-  // fs.writeFileSync('temp/cross.html', html) 
+  fs.writeFileSync('temp/cross.html', html) 
+
 
   return articleCache[url] = lines.join('\n\n')
 }

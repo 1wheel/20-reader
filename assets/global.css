@@ -14,6 +14,10 @@ h2{
 	font-size: 12px;
 }
 
+figure{
+	display: none;
+}
+
 main {
 	position: relative;
 	max-width: 56em;
