@@ -14,7 +14,7 @@
       <div class='article-expand'>
         <a href='{{post.link}}'>{{post.byline}} // {{post.section.toUpperCase()}}</a>
 
-        {{{post.html}}}
+        {{{post.expanded ? post.html : ''}}}
       </div>
 
       <link rel='prefetch' href='{{post.apiLink}}'>
@@ -118,7 +118,7 @@
         var post = posts[index]
         post.expanded = !post.expanded
         posts.forEach((d, i) => {
-          // i != index ? d.expanded = 0 : 0
+          i != index ? d.expanded = 0 : 0
         })
 
         post.read = true
@@ -126,7 +126,7 @@
 
         this.set({posts})
 
-        node.scrollIntoView(true)
+        if (!post.expanded) node.scrollIntoView(true)
         // setTimeout(() => node.scrollIntoView(true), 1)
       }
     }

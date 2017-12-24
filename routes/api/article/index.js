@@ -10,12 +10,14 @@ async function getArticleText(url){
   const response = await fetch(url)
   const html = await response.text()
 
+  // var htmlStr = html.split('Timestamp-timestamp')[1] || ''
   var lines = html
     // .replace(/<h4 /g, '<p ')
     .replace(
       /<h2 class="Heading2-heading2/g, 
       '<p class="Paragraph-paragraph> <h2 class="Heading2-heading2'
     )
+    .replace(/<figure.+?figure>/g, '')
     .split('<p class="Paragraph-paragraph')
     .slice(1)
     .map(d => d.split('>').slice(1).join('>').split('</p>')[0])
@@ -30,6 +32,7 @@ async function getArticleText(url){
   fs.writeFileSync('temp/cross.html', html) 
 
 
+  // return html.replace(/<figure.+figure>/g, 'XXX')
   return articleCache[url] = lines.join('\n\n')
 }
 
