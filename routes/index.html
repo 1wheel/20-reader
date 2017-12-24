@@ -71,7 +71,7 @@
       return fetch(`/api/feed?${feed}`).then(r => r.json()).then(posts => {
         posts.forEach((d, i) => {
           d.html = ''
-          d.apiLink = `/api/article?${d.link}`
+          d.apiLink = `api/article?${d.link}`
           d.expanded = false
 
           d.i = i
