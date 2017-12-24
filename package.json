@@ -29,5 +29,8 @@
     "uglifyjs-webpack-plugin": "^1.1.2",
     "webpack": "^3.10.0",
     "xml2js": "^0.4.19"
+  },
+  "now": {
+    "alias": "20-reader"
   }
 }

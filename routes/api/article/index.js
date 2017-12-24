@@ -23,13 +23,12 @@ async function getArticleText(url){
     .map(d => d.split('>').slice(1).join('>').split('</p>')[0])
     .map(d => `<p>${d}</p>`)
 
-  lines.forEach((d, i) => {
-    if (!d.includes('</h2>')) return
-    // lines[i] = d.replace('<p>', '<p><h2>')
-  })
+  // lines.forEach((d, i) => {
+  //   if (!d.includes('</h2>')) return
+  //   // lines[i] = d.replace('<p>', '<p><h2>')
+  // })
 
-  // if (html.includes('publicly funded vouchers')) 
-  fs.writeFileSync('temp/cross.html', html) 
+  // fs.writeFileSync('temp/cross.html', html) 
 
 
   // return html.replace(/<figure.+figure>/g, 'XXX')
