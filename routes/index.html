@@ -117,9 +117,9 @@
 
         var post = posts[index]
         post.expanded = !post.expanded
-        posts.forEach((d, i) => {
-          i != index ? d.expanded = 0 : 0
-        })
+        // posts.forEach((d, i) => {
+        //   i != index ? d.expanded = 0 : 0
+        // })
 
         post.read = true
         document.cookie = post.link + '=1'
