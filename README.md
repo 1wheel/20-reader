@@ -7,26 +7,26 @@ https://svelte.technology/repl?version=1.49.1&gist=abcad75a4a82f1634b839ab567632
 How can add async data to array without index fiddling?
 
 
-x set as home page
-x delete other things
-x position sticky 
-- bigger mobile fonts
-x scroll to on detoggle?
-x deploy with rsync
-- forward ports 
-x nav for other feeds
-x cookies to track read articles
-x class="styles-italic--2TT1g"> and class="styles-bold--rNKfn">To
-x don't lose section heads
+-[x] set as home page
+-[x] delete other things
+-[x] position sticky 
+-[ ] bigger mobile fonts
+-[x] scroll to on detoggle?
+-[x] deploy with rsync
+-[ ] forward ports 
+-[x] nav for other feeds
+-[x] cookies to track read articles
+-[x] class="styles-italic--2TT1g"> and class="styles-bold--rNKfn">To
+-[x] don't lose section heads
 `<h2 class="Heading2-heading2--2UY6W elementStyles-heading2--slXZ7 elementStyles-toneNews--sRTft">Xprize Foundation, Inc.</h2>`
-- filter out images
-- images?
-- show article length?
+-[ ] filter out images
+-[ ] images?
+-[ ] show article length?
 
-- updating #aa1e1e in manifest.json doesn't get used
-- styles don't update without reload
-- debugging is hard `(node:38624) UnhandledPromiseRejectionWarning: Unhandled promise rejection (rejection id: 1): TypeError: Cannot read property 'link' of undefined`
-- frequently have to kill server and start over:
+-[ ] updating #aa1e1e in manifest.json doesn't get used
+-[ ] styles don't update without reload
+-[ ] debugging is hard `(node:38624) UnhandledPromiseRejectionWarning: Unhandled promise rejection (rejection id: 1): TypeError: Cannot read property 'link' of undefined`
+-[ ] frequently have to kill server and start over:
 ```
 process-update.js:136 [HMR] Update check failed: Error: Manifest request to /client/7f71269cd30032b87e4f.hot-update.json timed out.
     at XMLHttpRequest.request.onreadystatechange (http://localhost:3000/client/main.7f71269cd30032b87e4f.js:64:22)
