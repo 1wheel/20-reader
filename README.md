@@ -12,7 +12,7 @@ x delete other things
 x position sticky 
 - bigger mobile fonts
 x scroll to on detoggle?
-- deploy with rsync
+x deploy with rsync
 - forward ports 
 x nav for other feeds
 x cookies to track read articles

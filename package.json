@@ -6,11 +6,11 @@
     "dev": "node server.js",
     "build": "sapper build",
     "start": "cross-env NODE_ENV=production node server.js",
-    "now": "now --public --alias 20-reader",
+    "now": "now --public && now alias && now remove 20-reader",
     "cy:run": "cypress run",
     "cy:open": "cypress open",
     "test": "run-p --race dev cy:run",
-    "deploy": "rsync"
+    "deploy": "./deploy.sh"
   },
   "dependencies": {
     "compression": "^1.7.1",
