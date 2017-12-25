@@ -12,7 +12,9 @@
       </div>
 
       <div class='article-expand'>
-        <a href='{{post.link}}'>{{post.byline}} // {{post.section.toUpperCase()}}</a>
+        <p>
+          <a href='{{post.link}}'>{{post.byline}} // {{post.section.toUpperCase()}}</a>
+        </p>
 
         {{{post.expanded ? post.html : ''}}}
       </div>
@@ -48,12 +50,26 @@
   .article-expand{
     display: none;
     padding: 5px;
+    padding-top: 1px;
   }
 
   .expanded .article-expand{
     display: block;
     background: white;
     color: #000;
+  }
+
+  @media (min-width: 800px) {
+    .title {
+      font-size: 18px;
+      padding: 10px;
+    }
+    .article-expand {
+      font-size: 16px;
+      padding: 10px;
+      padding-top: 1px;
+
+    }
   }
 </style>
 
@@ -124,7 +140,7 @@
         this.set({posts})
 
         if (!post.expanded) node.scrollIntoView(true)
-          
+
         // posts.forEach((d, i) => i != index ? d.expanded = 0 : 0)
         // setTimeout(() => node.scrollIntoView(true), 1)
       }
