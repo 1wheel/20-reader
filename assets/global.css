@@ -31,8 +31,8 @@ a {
 	color: inherit;
 }
 
-@media (min-width: 400px) {
-	body {
-		// font-size: 16px;
+@media (min-width: 800px) {
+	main {
+		max-width: 700px;
 	}
 }

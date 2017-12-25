@@ -76,7 +76,7 @@
 
           d.i = i
           d.section = d.link.split('/').slice(-2)[0]
-          d.byline = d['dc:creator'].trim()
+          d.byline = (d['dc:creator'] || '').trim()
 
           d.type = ''
           if (d.section == 'opinion') d.type = 'OPINION: '
@@ -117,9 +117,6 @@
 
         var post = posts[index]
         post.expanded = !post.expanded
-        // posts.forEach((d, i) => {
-        //   i != index ? d.expanded = 0 : 0
-        // })
 
         post.read = true
         document.cookie = post.link + '=1'
@@ -127,6 +124,8 @@
         this.set({posts})
 
         if (!post.expanded) node.scrollIntoView(true)
+          
+        // posts.forEach((d, i) => i != index ? d.expanded = 0 : 0)
         // setTimeout(() => node.scrollIntoView(true), 1)
       }
     }
