@@ -139,7 +139,8 @@
 
         this.set({posts})
 
-        if (!post.expanded) node.scrollIntoView(true)
+        var isAbove = node.parentNode.getBoundingClientRect().top < 0
+        if (isAbove && !post.expanded) node.scrollIntoView(true)
 
         // posts.forEach((d, i) => i != index ? d.expanded = 0 : 0)
         // setTimeout(() => node.scrollIntoView(true), 1)

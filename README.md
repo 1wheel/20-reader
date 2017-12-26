@@ -10,7 +10,7 @@
 - [x] nav for other feeds
 - [x] cookies to track read articles
 - [x] don't lose section heads 
-- [ ] only scroll when needed
+- [x] only scroll when needed
 - [x] cache feeds
 - [ ] show article length?
 - [ ] add images?
