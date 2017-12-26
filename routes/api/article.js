@@ -3,7 +3,7 @@ const fs = require('fs')
 
 // cache articles for 30 min
 var articleCache = {}
-setInterval(() => articleCache = {}, 1 * 60 * 1e3)
+setInterval(() => articleCache = {}, 1000*60*30)
 
 
 async function getArticleText(url){
