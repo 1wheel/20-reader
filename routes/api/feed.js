@@ -28,7 +28,7 @@ async function updateFeeds(){
       Object.keys(d).forEach(key => (d[key] = d[key][0]))
     })
 
-    if (items.length) feed.items = items
+    if (items.length) feed.items = items.filter(d => d.title)
   }
 
 

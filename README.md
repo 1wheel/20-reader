@@ -1,3 +1,6 @@
+`yarn run dev` start.
+
+
 ## TODO
 
 - [x] set as home page
@@ -22,3 +25,4 @@
 - [ ] styles don't update without reload
 - [ ] debugging is hard 
 - [ ] frequently have to kill server and start over
+- [ ] hmr gets deployed to production
