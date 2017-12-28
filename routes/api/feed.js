@@ -26,6 +26,8 @@ async function updateFeeds(){
     var items = parseXML(xml).rss.channel[0].item
     items.forEach(d => {
       Object.keys(d).forEach(key => (d[key] = d[key][0]))
+
+      d.link = d.link.split('?')[0]
     })
 
     if (items.length) feed.items = items.filter(d => d.title)
