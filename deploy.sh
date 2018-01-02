@@ -8,5 +8,5 @@ ssh demo@roadtolarissa.com <<'ENDSSH'
 	&& yarn \
 	&& kill -9 $(lsof -t -i:3001 -sTCP:LISTEN)
 
-	PORT=3001 yarn run start
+	yarn run build && PORT=3001 yarn run start
 ENDSSH
