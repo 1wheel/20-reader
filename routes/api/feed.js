@@ -4,7 +4,7 @@ const parseString = require('xml2js').parseString
 var feeds = {
   recent: {
     items: [], 
-    url: 'http://www.nytimes.com/timeswire/feeds/'
+    url: 'https://content.api.nytimes.com/svc/news/v3/all/recent.rss'
   },
   homepage: {
     items: [], 
