@@ -11,10 +11,15 @@ async function getArticleText(url){
 
   const response = await fetch(url)
   const html = await response.text()
+  // fs.writeFileSync('temp/article.html', html) 
+
+  // var pClass = html
+  //   .split('</time></div></header><div class="StoryBodyCompanionColumn ')[1]
+  //   .split(' ')[0]
 
   var pClass = html
-    .split('</time></div></header><p class="')[1]
-    .split(' ')[0]
+    .split(`{font-family:nyt-imperial,georgia,'times new roman'`)[0]
+    .split('.').slice(-1)[0]
 
   console.log(pClass)
 
@@ -30,8 +35,8 @@ async function getArticleText(url){
     .map(d => `<p>${d}</p>`)
 
   // console.log(html.split('<p class="story-body-text').length)
-  // fs.writeFileSync('temp/cross.html', html) 
-
+  console.log(lines.length)
+  console.log(`<p class="${pClass}`)
   return articleCache[url] = lines.join('\n\n')
 }
 
@@ -44,7 +49,7 @@ export async function get(req, res) {
 
     res.set({
       'Content-Type': 'application/json',
-      'Cache-Control': `max-age=${30 * 60 * 5}` // cache for 30 minutes
+      'Cache-Control': `max-age=${30 * 60 * 0}` // cache for 30 minutes
     })
 
     res.send(html)
