@@ -17,6 +17,10 @@
 - [x] cache feeds
 - [ ] show article length?
 - [ ] add images?
+- [ ] headers are missing
+- [ ] upgrade svelte 2
+- [ ] upgrade sapper
+- [ ] read state gets lots
 
 
 ## Sapper notes

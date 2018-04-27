@@ -114,7 +114,7 @@
 
       var cookie = document.cookie
       posts.forEach(post => {
-        post.read = cookie.includes(post.link)
+        post.read = cookie.includes(post.link.split('.html')[0])
       })
       this.set({posts})
 
