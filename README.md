@@ -7,4 +7,3 @@
 - [ ] svelte v2
 - [ ] add SUNDAY to article titles
 - [ ] briefing filter?
-

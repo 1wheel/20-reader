@@ -48,3 +48,15 @@ module.exports = {
 	].filter(Boolean),
 	devtool: config.dev ? 'inline-source-map' : false
 };
+
+console.log('DEV???', config.dev)
+
+var plugings = [
+		config.dev && new webpack.HotModuleReplacementPlugin(),
+		!config.dev && new ExtractTextPlugin('main.css'),
+		!config.dev && new webpack.optimize.ModuleConcatenationPlugin(),
+		!config.dev && new UglifyJSPlugin()
+	].filter(Boolean)
+
+
+	console.log(config.dev ? 'inline-source-map' : false)
