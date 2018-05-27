@@ -2,7 +2,7 @@
 
 ## TODO
 - [ ] add images
-- [ ] fix subheads
+- [x] fix subheads
 - [ ] upgrade sapper
 - [ ] svelte v2
 - [x] add SUNDAY to article titles

@@ -11,7 +11,7 @@ async function getArticleText(url){
 
   const response = await fetch(url)
   const html = await response.text()
-  // fs.writeFileSync('temp/article.html', html) 
+  fs.writeFileSync('temp/article.html', html) 
 
   // var pClass = html
   //   .split('</time></div></header><div class="StoryBodyCompanionColumn ')[1]
@@ -25,8 +25,8 @@ async function getArticleText(url){
 
   var lines = html
     .replace(
-      /<h2 class="Heading2-heading2/g, 
-      '<p class="story-body-text"> <h2 class="Heading2-heading2'
+      /<h3 class="/g, 
+      `<p class="${pClass}> <h2 `
     )
     .replace(/<figure.+?figure>/g, '')
     .split(`<p class="${pClass}`)
