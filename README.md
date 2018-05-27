@@ -5,5 +5,5 @@
 - [ ] fix subheads
 - [ ] upgrade sapper
 - [ ] svelte v2
-- [ ] add SUNDAY to article titles
+- [x] add SUNDAY to article titles
 - [ ] briefing filter?
