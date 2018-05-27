@@ -24,6 +24,7 @@ async function getArticleText(url){
   console.log(pClass)
 
   var lines = html
+    .split('<div class="bottom-of-article">')[0]
     .replace(
       /<h3 class="/g, 
       `<p class="${pClass}> <h2 `
