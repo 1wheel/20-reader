@@ -6,4 +6,4 @@
 - [ ] upgrade sapper
 - [ ] svelte v2
 - [x] add SUNDAY to article titles
-- [ ] briefing filter?
+- [x] briefing filter?

@@ -30,7 +30,11 @@ async function updateFeeds(){
       d.link = d.link.split('?')[0]
     })
 
-    if (items.length) feed.items = items.filter(d => d.title)
+    if (items.length){ 
+      feed.items = items
+        .filter(d => d.title)
+        .filter(d => !d.title.includes(': Your ') || !d.title.includes('Briefing'))
+    }
   }
 
 
