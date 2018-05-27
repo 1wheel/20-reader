@@ -29,6 +29,11 @@ async function getArticleText(url){
       /<h3 class="/g, 
       `<p class="${pClass}> <h2 `
     )
+    // .replace(
+    //   /<figure class=/g, 
+    //   `<p class="${pClass}> <img `
+    // )
+    // .replace(/itemID=/g, 'src=')
     .replace(/<figure.+?figure>/g, '')
     .split(`<p class="${pClass}`)
     .slice(1)
