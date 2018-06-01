@@ -11,17 +11,19 @@ async function getArticleText(url){
 
   const response = await fetch(url)
   const html = await response.text()
-  fs.writeFileSync('temp/article.html', html) 
+  // fs.writeFileSync('temp/article.html', html) 
 
   // var pClass = html
   //   .split('</time></div></header><div class="StoryBodyCompanionColumn ')[1]
   //   .split(' ')[0]
 
   var pClass = html
-    .split(`{font-family:nyt-imperial,georgia,'times new roman'`)[0]
-    .split('.').slice(-1)[0]
-
-  console.log(pClass)
+    .split(`font-family:nyt-imperial,georgia,'times new roman',times,serif;font-size:1rem;`)[0]
+    .split('.')
+    .slice(-1)[0]
+    .replace('{', '')
+    
+  // console.log(pClass)
 
   var lines = html
     .split('<div class="bottom-of-article">')[0]
@@ -41,8 +43,7 @@ async function getArticleText(url){
     .map(d => `<p>${d}</p>`)
 
   // console.log(html.split('<p class="story-body-text').length)
-  console.log(lines.length)
-  console.log(`<p class="${pClass}`)
+  // console.log(lines.length)
   return articleCache[url] = lines.join('\n\n')
 }
 
