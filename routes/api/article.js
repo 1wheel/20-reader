@@ -1,34 +1,34 @@
 const fetch = require('node-fetch')
 const fs = require('fs')
 
-// cache articles for 30 min
+// cache articles for 10 min
 var articleCache = {}
-setInterval(() => articleCache = {}, 1000*60*30)
+setInterval(() => articleCache = {}, 1000*60*10)
 
 
 async function getArticleText(url){
+  
   if (articleCache[url]) return articleCache[url]
 
   const response = await fetch(url)
   const html = await response.text()
-  // fs.writeFileSync('temp/article.html', html) 
+  // console.log(url)
 
   // var pClass = html
   //   .split('</time></div></header><div class="StoryBodyCompanionColumn ')[1]
   //   .split(' ')[0]
 
   var pClass = html
-    .split(`font-family:nyt-imperial,georgia,'times new roman',times,serif;font-size:1rem;`)[0]
+    .split(`{font-family:nyt-imperial,georgia,'times new roman',times,serif;font-size:1.0625rem;line-height:1.5rem;`)[0]
     .split('.')
     .slice(-1)[0]
-    .replace('{', '')
     
   // console.log(pClass)
 
   var lines = html
     .split('<div class="bottom-of-article">')[0]
     .replace(
-      /<h3 class="/g, 
+      /<h2 class="/g, 
       `<p class="${pClass}> <h2 `
     )
     // .replace(
@@ -44,8 +44,15 @@ async function getArticleText(url){
 
   // console.log(html.split('<p class="story-body-text').length)
   // console.log(lines.length)
+  // console.log(__dirname + '/../../temp/article.html')
+
+  // fs.writeFileSync(__dirname + '/../../temp/article.html', html) 
+  // fs.writeFileSync(__dirname + '/../../temp/lines.html', lines.join('\n\n')) 
+
   return articleCache[url] = lines.join('\n\n')
 }
+
+// getArticleText('https://www.nytimes.com/2018/09/19/travel/affordable-seaside-getaways-california-bali-italy-mexico.html?fallback=0&recId=1AkX35z4ZRPC2dM8dn7BNcVx6Tm&locked=0&geoContinent=NA&geoRegion=NY&recAlloc=control&geoCountry=US&blockId=home-living-vi&imp_id=242323522')
 
 
 export async function get(req, res) {
