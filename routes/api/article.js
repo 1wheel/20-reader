@@ -40,6 +40,7 @@ async function getArticleText(url){
     .split(`<p class="${pClass}`)
     .slice(1)
     .map(d => d.split('>').slice(1).join('>').split('</p>')[0])
+    .filter(d => !(d.substr(0, 3) == '[<a' && d.includes('</em></a>]'))) // intentional links
     .map(d => `<p>${d}</p>`)
 
   // console.log(html.split('<p class="story-body-text').length)
