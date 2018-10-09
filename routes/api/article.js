@@ -12,18 +12,18 @@ async function getArticleText(url){
 
   const response = await fetch(url)
   const html = await response.text()
-  // console.log(url)
+  console.log(url)
 
   // var pClass = html
   //   .split('</time></div></header><div class="StoryBodyCompanionColumn ')[1]
   //   .split(' ')[0]
 
   var pClass = html
-    .split(`{font-family:nyt-imperial,georgia,'times new roman',times,serif;font-size:1.0625rem;line-height:1.5rem;`)[0]
+    .split(`{margin-bottom:0.75rem;font-family:nyt-imperial,georgia,'times new roman',times,serif;font-size:1.0625rem;`)[0]
     .split('.')
     .slice(-1)[0]
     
-  // console.log(pClass)
+  console.log(pClass)
 
   var lines = html
     .split('<div class="bottom-of-article">')[0]
@@ -53,7 +53,7 @@ async function getArticleText(url){
   return articleCache[url] = lines.join('\n\n')
 }
 
-// getArticleText('https://www.nytimes.com/2018/09/19/travel/affordable-seaside-getaways-california-bali-italy-mexico.html?fallback=0&recId=1AkX35z4ZRPC2dM8dn7BNcVx6Tm&locked=0&geoContinent=NA&geoRegion=NY&recAlloc=control&geoCountry=US&blockId=home-living-vi&imp_id=242323522')
+// getArticleText('https://www.nytimes.com/2018/10/08/opinion/jamal-khashoggi-mbs-saudi-republicans.html')
 
 
 export async function get(req, res) {
