@@ -4,15 +4,16 @@ html{
 
 body {
 	margin: 0px;
-	font-family: Roboto, -apple-system, BlinkMacSystemFont, Segoe UI, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+	font-family: nyt-franklin, Roboto, -apple-system, BlinkMacSystemFont, Segoe UI, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
 	font-size: 12px;
 	line-height: 1.5;
+	font-weight: 400;
 
 	margin: 0px auto;
 }
 
 h2{
-	font-size: 14px;
+	font-size: 18px;
 }
 
 figure{
@@ -31,8 +32,128 @@ a {
 	color: inherit;
 }
 
+#t-logo{
+	width: 33px;
+	background: #fff;
+	margin-right: 20px;
+	float: right;
+	position: absolute;
+	right: -12px;
+	top: 10px;
+
+	filter: invert(100%);
+	-webkit-filter: invert(100%);
+	-ms-filter: invert(100%);
+
+}
+
+
 @media (min-width: 800px) {
 	main {
 		max-width: 700px;
 	}
+
+	#t-logo{
+		top: 15px;
+		right: -15px;
+	}
+}
+
+
+@font-face {
+    font-family: 'nyt-franklin';
+    src: url('https://int.nyt.com/applications/elections/2017/assets/css/fonts/franklin-normal-300.eot?#iefix') format('embedded-opentype'),
+         url('https://int.nyt.com/applications/elections/2017/assets/css/fonts/franklin-normal-300.woff2') format('woff2'),
+         url('https://int.nyt.com/applications/elections/2017/assets/css/fonts/franklin-normal-300.woff') format('woff'),
+         url('https://int.nyt.com/applications/elections/2017/assets/css/fonts/franklin-normal-300.ttf') format('truetype');
+    font-weight: 300;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'nyt-franklin';
+    src: url('https://int.nyt.com/applications/elections/2017/assets/css/fonts/franklin-normal-500.eot?#iefix') format('embedded-opentype'),
+         url('https://int.nyt.com/applications/elections/2017/assets/css/fonts/franklin-normal-500.woff2') format('woff2'),
+         url('https://int.nyt.com/applications/elections/2017/assets/css/fonts/franklin-normal-500.woff') format('woff'),
+         url('https://int.nyt.com/applications/elections/2017/assets/css/fonts/franklin-normal-500.ttf') format('truetype');
+    font-weight: 500;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'nyt-franklin';
+    src: url('https://int.nyt.com/applications/elections/2017/assets/css/fonts/franklin-normal-700.eot?#iefix') format('embedded-opentype'),
+         url('https://int.nyt.com/applications/elections/2017/assets/css/fonts/franklin-normal-700.woff2') format('woff2'),
+         url('https://int.nyt.com/applications/elections/2017/assets/css/fonts/franklin-normal-700.woff') format('woff'),
+         url('https://int.nyt.com/applications/elections/2017/assets/css/fonts/franklin-normal-700.ttf') format('truetype');
+    font-weight: 700;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'nyt-cheltenham';
+    src: url('https://int.nyt.com/applications/elections/2017/assets/css/fonts/cheltenham-normal-500.eot?#iefix') format('embedded-opentype'),
+         url('https://int.nyt.com/applications/elections/2017/assets/css/fonts/cheltenham-normal-500.woff2') format('woff2'),
+         url('https://int.nyt.com/applications/elections/2017/assets/css/fonts/cheltenham-normal-500.woff') format('woff'),
+         url('https://int.nyt.com/applications/elections/2017/assets/css/fonts/cheltenham-normal-500.ttf') format('truetype');
+    font-weight: 500;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'nyt-cheltenham';
+    src: url('https://int.nyt.com/applications/elections/2017/assets/css/fonts/cheltenham-normal-700.eot?#iefix') format('embedded-opentype'),
+         url('https://int.nyt.com/applications/elections/2017/assets/css/fonts/cheltenham-normal-700.woff2') format('woff2'),
+         url('https://int.nyt.com/applications/elections/2017/assets/css/fonts/cheltenham-normal-700.woff') format('woff'),
+         url('https://int.nyt.com/applications/elections/2017/assets/css/fonts/cheltenham-normal-700.ttf') format('truetype');
+    font-weight: 700;
+    font-style: normal;
+}
+
+@font-face {
+  font-family: 'nyt-imperial';
+  src: local("Ã¢ËœÂºÃ¯Â¸Å½"), url("https://a1.nyt.com/fonts/family/imperial/imperial-italic-500.woff") format("woff"),
+    url("https://a1.nyt.com/fonts/family/imperial/imperial-italic-500.ttf") format("truetype");
+  font-style: italic;
+  font-weight: 500
+}
+
+@font-face {
+  font-family: 'nyt-imperial';
+  src: local("Ã¢ËœÂºÃ¯Â¸Å½"), url("https://a1.nyt.com/fonts/family/imperial/imperial-italic-600.woff") format("woff"),
+    url("https://a1.nyt.com/fonts/family/imperial/imperial-italic-600.ttf") format("truetype");
+  font-style: italic;
+  font-weight: 600
+}
+
+@font-face {
+  font-family: 'nyt-imperial';
+  src: local("Ã¢ËœÂºÃ¯Â¸Å½"), url("https://a1.nyt.com/fonts/family/imperial/imperial-italic-700.woff") format("woff"),
+    url("https://a1.nyt.com/fonts/family/imperial/imperial-italic-700.ttf") format("truetype");
+  font-style: italic;
+  font-weight: 700
+}
+
+@font-face {
+  font-family: 'nyt-imperial';
+  src: local("Ã¢ËœÂºÃ¯Â¸Å½"), url("https://a1.nyt.com/fonts/family/imperial/imperial-normal-500.woff") format("woff"),
+    url("https://a1.nyt.com/fonts/family/imperial/imperial-normal-500.ttf") format("truetype");
+  font-style: normal;
+  font-weight: 500
+}
+
+@font-face {
+  font-family: 'nyt-imperial';
+  src: local("Ã¢ËœÂºÃ¯Â¸Å½"), url("https://a1.nyt.com/fonts/family/imperial/imperial-normal-600.woff") format("woff"),
+    url("https://a1.nyt.com/fonts/family/imperial/imperial-normal-600.ttf") format("truetype");
+  font-style: normal;
+  font-weight: 600
+}
+
+@font-face {
+  font-family: 'nyt-imperial';
+  src: local("Ã¢ËœÂºÃ¯Â¸Å½"), url("https://a1.nyt.com/fonts/family/imperial/imperial-normal-700.woff") format("woff"),
+    url("https://a1.nyt.com/fonts/family/imperial/imperial-normal-700.ttf") format("truetype");
+  font-style: normal;
+  font-weight: 700
 }
