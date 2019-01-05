@@ -1,5 +1,6 @@
 const fetch = require('node-fetch')
 const fs = require('fs')
+const _ = require('underscore')
 
 // cache articles for 10 min
 var articleCache = {}
@@ -40,8 +41,11 @@ async function getArticleText(url){
     .split(`<p class="${pClass}`)
     .slice(1)
     .map(d => d.split('>').slice(1).join('>').split('</p>')[0])
-    .filter(d => !(d.substr(0, 3) == '[<a' && d.includes('</em></a>]'))) // intentional links
+    // .filter(d => !(d.substr(0, 3) == '[<a' && d.includes('</em></a>]'))) // intentional links
     .map(d => `<p>${d}</p>`)
+
+  // intentional links to the end
+  lines = _.sortBy(lines, d => d.includes('[') && d.includes(']') ? 1 : -1)
 
   // console.log(html.split('<p class="story-body-text').length)
   // console.log(lines.length)

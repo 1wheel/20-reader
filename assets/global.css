@@ -5,12 +5,13 @@ html{
 body {
 	margin: 0px;
 	font-family: nyt-franklin, Roboto, -apple-system, BlinkMacSystemFont, Segoe UI, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
-	font-size: 12px;
+	font-size: 14px;
 	line-height: 1.5;
 	font-weight: 400;
 
 	margin: 0px auto;
 }
+
 
 h2{
 	font-size: 18px;
@@ -39,7 +40,7 @@ a {
 	float: right;
 	position: absolute;
 	right: -12px;
-	top: 10px;
+	top: 8px;
 
 	filter: invert(100%);
 	-webkit-filter: invert(100%);

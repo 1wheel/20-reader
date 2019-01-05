@@ -28,6 +28,7 @@
     "svelte": "^1.49.1",
     "svelte-loader": "^2.3.1",
     "uglifyjs-webpack-plugin": "^1.1.2",
+    "underscore": "^1.9.1",
     "webpack": "^3.10.0",
     "xml2js": "^0.4.19"
   },
