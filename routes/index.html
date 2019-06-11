@@ -105,6 +105,7 @@
           d.type = ''
           if (d.section == 'opinion') d.type = 'OPINION: '
           if (d.section == 'crossword') d.type = 'CROSSWORD: '
+          if (d.section == 'politics') d.type = 'POLITICS: '
           if (d.byline == 'By THE ASSOCIATED PRESS') d.type = 'AP: '
 
         })
@@ -112,6 +113,8 @@
         posts.sort((a, b) => {
           return a.type < b.type ? -1 : a.type > b.type ? 1 : a.i - b.i
         })
+
+        // posts = posts.filter(d => d.section != 'politics')
 
 
         return {posts, feed}

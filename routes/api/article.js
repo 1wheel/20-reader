@@ -20,18 +20,18 @@ async function getArticleText(url){
   //   .split(' ')[0]
 
   var pClass = html
-    .split(`{margin-bottom:0.75rem;font-family:nyt-imperial,georgia,'times new roman',times,serif;font-size:1.0625rem;`)[0]
+    .split(`{margin-bottom:0.78125rem;margin-top:0;font-family:nyt-imperial,georgia,'times new roman',times,serif`)[0]
     .split('.')
     .slice(-1)[0]
     
-  // console.log(pClass)
+  console.log(pClass)
 
   var lines = html
     .split('<div class="bottom-of-article">')[0]
     .replace(`h2 class="css-zd32qr e6u6ph31"`, 'div') // no promos
     .replace(
-      /<h2 class="/g, 
-      `<p class="${pClass}> <h2 `
+      /<h2 /g, 
+      `<p class="${pClass}"> <h2 `
     )
     // .replace(
     //   /<figure class=/g, 
@@ -46,7 +46,7 @@ async function getArticleText(url){
     .map(d => `<p>${d}</p>`)
 
   // intentional links to the end
-  lines = _.sortBy(lines, d => d.includes('[') && d.includes(']') ? 1 : -1)
+  lines = _.sortBy(lines, d => d.includes('[') && d.includes(']')  && d.includes('href') ? 1 : -1)
 
   // console.log(html.split('<p class="story-body-text').length)
   // console.log(lines.length)
@@ -58,7 +58,7 @@ async function getArticleText(url){
   return articleCache[url] = lines.join('\n\n')
 }
 
-// getArticleText('https://www.nytimes.com/2019/04/05/upshot/trump-replacing-obamacare-insurance.html')
+getArticleText('https://www.nytimes.com/2019/04/05/upshot/trump-replacing-obamacare-insurance.html')
 
 
 export async function get(req, res) {
