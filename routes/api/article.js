@@ -67,6 +67,9 @@ export async function get(req, res) {
 
     var html = await getArticleText(url)
 
+    res.header('Access-Control-Allow-Origin', '*') 
+    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept')
+
     res.set({
       'Content-Type': 'application/json',
       'Cache-Control': `max-age=${30 * 60 * 0}` // cache for 30 minutes

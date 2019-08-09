@@ -55,6 +55,9 @@ export async function get(req, res) {
     var feed = Object.keys(req.query)[0] || 'recent'
     if (!feeds[feed].items.length) await updateFeeds()
 
+    res.header('Access-Control-Allow-Origin', '*') 
+    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept')
+
     res.set({'Content-Type': 'application/json'})
     res.send(JSON.stringify(feeds[feed].items))
   } catch (err) {
