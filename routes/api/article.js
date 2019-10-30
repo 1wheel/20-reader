@@ -28,6 +28,7 @@ async function getArticleText(url){
 
   var lines = html
     .split('<div class="bottom-of-article">')[0]
+    .split('site-index-label')[0]
     .replace(`h2 class="css-zd32qr e6u6ph31"`, 'div') // no promos
     .replace(
       /<h2 /g, 
@@ -44,16 +45,16 @@ async function getArticleText(url){
     .map(d => d.split('>').slice(1).join('>').split('</p>')[0])
     // .filter(d => !(d.substr(0, 3) == '[<a' && d.includes('</em></a>]'))) // intentional links
     .map(d => `<p>${d}</p>`)
+    .filter(d => !d.includes('css-1uuihdo')) // remove promos
 
   // intentional links to the end
   lines = _.sortBy(lines, d => d.includes('[') && d.includes(']')  && d.includes('href') ? 1 : -1)
 
   // console.log(html.split('<p class="story-body-text').length)
   // console.log(lines.length)
-  // console.log(__dirname + '/../../temp/article.html')
-
-  // fs.writeFileSync(__dirname + '/../../temp/article.html', html) 
-  // fs.writeFileSync(__dirname + '/../../temp/lines.html', lines.join('\n\n')) 
+  // var tempDir = '/Users/adampearce/Desktop/lib/20-reader/temp/'
+  // fs.writeFileSync(tempDir + 'article.html', html) 
+  // fs.writeFileSync(tempDir + 'lines.html', lines.join('\n\n')) 
 
   return articleCache[url] = lines.join('\n\n')
 }
