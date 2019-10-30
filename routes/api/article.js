@@ -13,7 +13,7 @@ async function getArticleText(url){
 
   const response = await fetch(url)
   const html = await response.text()
-  console.log(url)
+  // console.log(url)
 
   // var pClass = html
   //   .split('</time></div></header><div class="StoryBodyCompanionColumn ')[1]
@@ -24,7 +24,7 @@ async function getArticleText(url){
     .split('.')
     .slice(-1)[0]
     
-  console.log(pClass)
+  // console.log(pClass)
 
   var lines = html
     .split('<div class="bottom-of-article">')[0]
