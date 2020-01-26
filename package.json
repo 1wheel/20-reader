@@ -10,7 +10,8 @@
     "cy:run": "cypress run",
     "cy:open": "cypress open",
     "test": "run-p --race dev cy:run",
-    "deploy": "./deploy.sh"
+    "deploy": "./deploy.sh",
+    "pub": "./deploy.sh"
   },
   "dependencies": {
     "compression": "^1.7.1",
