@@ -32,6 +32,7 @@ async function updateFeeds(){
 
     if (items.length){ 
       feed.items = items
+        .filter(d => !d.link.includes('nytimes.com/live/')) // https://www.nytimes.com/live/2020/iowa-democratic-caucus-01-26/caucusing-with-disability
         .filter(d => d.title)
         .filter(d => !d.title.includes(': Your ') || !d.title.includes('Briefing'))
     }
