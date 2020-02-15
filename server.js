@@ -20,5 +20,5 @@ app.use(static('assets'));
 app.use(sapper());
 
 app.listen(PORT, () => {
-	console.log(`listening on port ${PORT}`);
+	console.log(`http://localhost:${PORT}`);
 });

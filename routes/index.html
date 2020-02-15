@@ -104,9 +104,15 @@
 
           d.type = ''
           if (d.section == 'opinion') d.type = 'OPINION: '
-          if (d.section == 'crossword') d.type = 'CROSSWORD: '
+          if (d.section == 'crosswords') d.type = 'CROSSWORDS: '
           if (d.section == 'politics') d.type = 'POLITICS: '
+          if (d.section == 'editorials') d.type = 'EDITORIALS: '
+          if (d.section == 'editorials') d.type = 'EDITORIALS: '
+          if (d.section == 'smarter-living') d.type = 'SMARTER LIVING: '
+          if (d.section == 'wirecutter') d.type = 'WIRECUTTTER: '
           if (d.byline == 'By THE ASSOCIATED PRESS') d.type = 'AP: '
+
+          console.log(d.section)
 
         })
 
