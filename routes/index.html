@@ -105,12 +105,14 @@
           d.type = ''
           if (d.section == 'opinion') d.type = 'OPINION: '
           if (d.section == 'crosswords') d.type = 'CROSSWORDS: '
-          if (d.section == 'politics') d.type = 'POLITICS: '
+          // if (d.section == 'politics') d.type = 'POLITICS: '
           if (d.section == 'editorials') d.type = 'EDITORIALS: '
           if (d.section == 'editorials') d.type = 'EDITORIALS: '
           if (d.section == 'smarter-living') d.type = 'SMARTER LIVING: '
           if (d.section == 'wirecutter') d.type = 'WIRECUTTTER: '
-          if (d.byline == 'By THE ASSOCIATED PRESS') d.type = 'AP: '
+          if (d.byline == 'The Associated Press') d.type = 'AP: '
+          if (d.byline == 'Reuters') d.type = 'REUTERS: '
+          if (d.link.includes('/slideshow/')) d.type = 'SLIDESHOW: '
 
           console.log(d.section)
 

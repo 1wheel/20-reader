@@ -47,6 +47,7 @@ async function getArticleText(url){
     // .filter(d => !(d.substr(0, 3) == '[<a' && d.includes('</em></a>]'))) // intentional links
     .map(d => `<p>${d}</p>`)
     .filter(d => !d.includes('css-1uuihdo')) // remove promos
+    .filter(d => !d.includes('storyline-latest-updates'))
 
   // intentional links to the end
   lines = _.sortBy(lines, d => d.includes('[') && d.includes(']')  && d.includes('href') ? 1 : -1)
