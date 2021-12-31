@@ -48,9 +48,11 @@ async function getArticleText(url){
     .map(d => `<p>${d}</p>`)
     .filter(d => !d.includes('css-1uuihdo')) // remove promos
     .filter(d => !d.includes('storyline-latest-updates'))
+    .filter(d => !d.includes('>Card 1 of 4<'))
 
   // intentional links to the end
   lines = _.sortBy(lines, d => d.includes('[') && d.includes(']')  && d.includes('href') ? 1 : -1)
+  lines = _.sortBy(lines, d => d.includes('toplinks-title') ? 1 : -1)
 
   // console.log(html.split('<p class="story-body-text').length)
   // console.log(lines.length)
