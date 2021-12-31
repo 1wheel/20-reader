@@ -43,9 +43,14 @@
     position: -webkit-sticky;
     top: 0px;
     cursor: pointer;
+    border-top: 1px solid #888;
+  }
+  .article:first-child .title{
+    border-top: 0px solid #888;
   }
   .read .title{
-    background: #333;
+    background: #222;
+    /*outline-top: 1px solid #000;*/
   }
 
   .article-expand{
@@ -62,7 +67,7 @@
   .expanded .article-expand{
     display: block;
     /*background: white;*/
-    /*color: #000;*/
+    background: #111;
   }
 
   @media (min-width: 750px) {

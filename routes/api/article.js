@@ -48,7 +48,7 @@ async function getArticleText(url){
     .map(d => `<p>${d}</p>`)
     .filter(d => !d.includes('css-1uuihdo')) // remove promos
     .filter(d => !d.includes('storyline-latest-updates'))
-    .filter(d => !d.includes('>Card 1 of 4<'))
+    .filter(d => !d.includes('>Card 1 of'))
 
   // intentional links to the end
   lines = _.sortBy(lines, d => d.includes('[') && d.includes(']')  && d.includes('href') ? 1 : -1)
