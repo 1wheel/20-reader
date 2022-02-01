@@ -27,7 +27,7 @@ async function getArticleText(url){
   // console.log(pClass)
 
   var lines = html
-    .split('<div class="bottom-of-article">')[0]
+    .split('<div id="after-bottom"><')[0]
     .split('site-index-label')[0]
     .split('g-electionguide-list-header')[0] // no 2020 footer
     .replace(`h2 class="css-zd32qr e6u6ph31"`, 'div') // no promos
