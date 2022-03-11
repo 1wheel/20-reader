@@ -19,12 +19,11 @@ async function getArticleText(url){
   //   .split('</time></div></header><div class="StoryBodyCompanionColumn ')[1]
   //   .split(' ')[0]
 
+  var pStr = `{margin-bottom:0.78125rem;margin-top:0;overflow-wrap:break-word;font-family:nyt-imperial,georgia,'times new roman',times,serif`
   var pClass = html
-    .split(`{margin-bottom:0.78125rem;margin-top:0;font-family:nyt-imperial,georgia,'times new roman',times,serif`)[0]
+    .split(pStr)[0]
     .split('.')
     .slice(-1)[0]
-    
-  // console.log(pClass)
 
   var lines = html
     .split('<div id="after-bottom"><')[0]
