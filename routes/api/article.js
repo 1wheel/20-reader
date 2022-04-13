@@ -1,30 +1,44 @@
 const fetch = require('node-fetch')
 const fs = require('fs')
 const _ = require('underscore')
+var {exec, execSync} = require('child_process')
 
 // cache articles for 10 min
 var articleCache = {}
 setInterval(() => articleCache = {}, 1000*60*10)
 
+function curlUrl(url){
+  return new Promise((resolve, reject) => {
+
+    exec(`curl -s -L ${url}`, {encoding: 'utf8'}, (error, stdout, stderror) => {
+      if (error || stderror) reject(error | stderror)
+
+      resolve(stdout)
+    })
+  })
+}
 
 async function getArticleText(url){
   
   if (articleCache[url]) return articleCache[url]
 
-  const response = await fetch(url)
-  const html = await response.text()
+  // const response = await fetch(url)
+  // const html = await response.text()
+
+  // var html = execSync(`curl -s -L ${url}`, {encoding: 'utf8'})
+  var html = await curlUrl(url)
   // console.log(url)
 
   // var pClass = html
   //   .split('</time></div></header><div class="StoryBodyCompanionColumn ')[1]
   //   .split(' ')[0]
-
-  var pStr = `{margin-bottom:0.78125rem;margin-top:0;overflow-wrap:break-word;font-family:nyt-imperial,georgia,'times new roman',times,serif`
+  var pStr = `{margin-bottom:0.78125rem;margin-top:0;overflow-wrap:break-word;font-family:nyt-imperial,georgia,'times new roman',times,serif;font-size:1.125rem;line-height:1.5625rem;margin-left:20px;m`
   var pClass = html
     .split(pStr)[0]
     .split('.')
     .slice(-1)[0]
 
+  // console.log(pClass)
   var lines = html
     .split('<div id="after-bottom"><')[0]
     .split('site-index-label')[0]
