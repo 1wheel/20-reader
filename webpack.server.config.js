@@ -24,7 +24,11 @@ module.exports = {
 						generate: 'ssr'
 					}
 				}
-			}
+			},
+			{
+	      test: /\.node$/,
+	      loader: 'node-loader',
+			},
 		]
 	}
 };

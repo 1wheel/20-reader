@@ -22,6 +22,8 @@
     "glob": "^7.1.2",
     "marked": "^0.3.7",
     "node-fetch": "^1.7.3",
+    "node-libcurl": "^2.3.4",
+    "node-loader": "^1",
     "npm-run-all": "^4.1.2",
     "sapper": "^0.2.3",
     "serve-static": "^1.13.1",

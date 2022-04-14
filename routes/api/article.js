@@ -3,13 +3,15 @@ const fs = require('fs')
 const _ = require('underscore')
 var {exec, execSync} = require('child_process')
 
+var {curly} = require('node-libcurl')
+
+
 // cache articles for 10 min
 var articleCache = {}
 setInterval(() => articleCache = {}, 1000*60*10)
 
 function curlUrl(url){
   return new Promise((resolve, reject) => {
-
     exec(`curl -s -L ${url}`, {encoding: 'utf8'}, (error, stdout, stderror) => {
       if (error || stderror) reject(error | stderror)
 
@@ -18,20 +20,48 @@ function curlUrl(url){
   })
 }
 
+
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms))
+}
+
+
 async function getArticleText(url){
   
   if (articleCache[url]) return articleCache[url]
 
+  await sleep(Math.random()*2000)
+
+  var {statusCode, data, headers} = await curly.get(url)
+  var html = data
+
   // const response = await fetch(url)
+  // const response = await fetch(url, {
+  //   "headers": {
+  //     "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9",
+  //     "accept-language": "en-US,en;q=0.9",
+  //     "cache-control": "no-cache",
+  //     "pragma": "no-cache",
+  //     "sec-ch-ua": "\" Not A;Brand\";v=\"99\", \"Chromium\";v=\"100\", \"Google Chrome\";v=\"100\"",
+  //     "sec-ch-ua-mobile": "?0",
+  //     "sec-ch-ua-platform": "\"macOS\"",
+  //     "sec-fetch-dest": "document",
+  //     "sec-fetch-mode": "navigate",
+  //     "sec-fetch-site": "same-origin",
+  //     "sec-fetch-user": "?1",
+  //     "upgrade-insecure-requests": "1",
+  //     "Referer": "https://www.nytimes.com/",
+  //     "Referrer-Policy": "strict-origin-when-cross-origin",
+  //   },
+  //   "body": null,
+  //   "method": "GET"
+  //   });
   // const html = await response.text()
 
   // var html = execSync(`curl -s -L ${url}`, {encoding: 'utf8'})
-  var html = await curlUrl(url)
+  // var html = await curlUrl(url)
   // console.log(url)
 
-  // var pClass = html
-  //   .split('</time></div></header><div class="StoryBodyCompanionColumn ')[1]
-  //   .split(' ')[0]
   var pStr = `{margin-bottom:0.78125rem;margin-top:0;overflow-wrap:break-word;font-family:nyt-imperial,georgia,'times new roman',times,serif;font-size:1.125rem;line-height:1.5625rem;margin-left:20px;m`
   var pClass = html
     .split(pStr)[0]
@@ -69,8 +99,8 @@ async function getArticleText(url){
 
   // console.log(html.split('<p class="story-body-text').length)
   // console.log(lines.length)
-  // var tempDir = '/Users/adampearce/Desktop/lib/20-reader/temp/'
-  // fs.writeFileSync(tempDir + 'article.html', html) 
+  var tempDir = '/Users/adampearce/Desktop/lib/20-reader/temp/'
+  fs.writeFileSync(tempDir + 'article.html', html) 
   // fs.writeFileSync(tempDir + 'lines.html', lines.join('\n\n')) 
 
   return articleCache[url] = lines.join('\n\n')
