@@ -32,7 +32,7 @@ async function getArticleText(url){
   // var pClass = html
   //   .split('</time></div></header><div class="StoryBodyCompanionColumn ')[1]
   //   .split(' ')[0]
-  var pStr = `{margin-bottom:0.78125rem;margin-top:0;overflow-wrap:break-word;font-family:nyt-imperial,georgia,'times new roman',times,serif;font-size:1.125rem;line-height:1.5625rem;margin-left:20px;m`
+  var pStr = `{margin-bottom:0.9375rem;margin-top:0;}`
   var pClass = html
     .split(pStr)[0]
     .split('.')
