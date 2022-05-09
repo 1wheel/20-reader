@@ -53,7 +53,11 @@
   export let posts
 
   function toggle(post){
+    window.localStorage.setItem(post.key, new Date().toISOString())
+
     post.expanded = !post.expanded
+    post.read = true
+
     posts = posts.slice()
   }
 
@@ -64,7 +68,6 @@
     })
 
     posts.forEach(post => {
-      return
       fetch(post.apiLink).then(r => r.text()).then(html => {
         post.html = html
         posts = posts.slice()
