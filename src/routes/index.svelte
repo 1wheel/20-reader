@@ -61,19 +61,28 @@
     posts = posts.slice()
   }
 
-  onMount(async => {
+  if (typeof window == 'undefined'){
+    onMount(decoratePosts)
+  } else{
+    decoratePosts()
+  }
+  
+
+  function decoratePosts(){
     posts.forEach(post => {
       post.key = post.link.split('.com')[1].split('.html')[0]
       post.read = window.localStorage.getItem(post.key)
     })
 
-    posts.forEach(post => {
+    posts.forEach(async post => {
       fetch(post.apiLink).then(r => r.text()).then(html => {
         post.html = html
         posts = posts.slice()
       })
     })
-  })
+  }
+
+
 
 </script>
 
