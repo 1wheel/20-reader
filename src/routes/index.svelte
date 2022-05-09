@@ -1,10 +1,10 @@
 <script context="module">
   // export const prerender = true
 
-  export async function load({fetch}){
-    const feed = 'recent'
+  export async function load({fetch, url}){
+    const feed = url.searchParams.get('feed') || 'recent'
 
-    let posts = await (await fetch(`/api/feed?${feed}`)).json()
+    let posts = await (await fetch(`/api/feed?feed=${feed}`)).json()
     posts.forEach((d, i) => {
       d.id = i
       d.i = i
@@ -54,20 +54,17 @@
 
   function toggle(post){
     post.expanded = !post.expanded
-
     posts = posts.slice()
-
   }
 
   onMount(async => {
-    console.log('onMount')
-
     posts.forEach(post => {
       post.key = post.link.split('.com')[1].split('.html')[0]
       post.read = window.localStorage.getItem(post.key)
     })
 
     posts.forEach(post => {
+      return
       fetch(post.apiLink).then(r => r.text()).then(html => {
         post.html = html
         posts = posts.slice()
@@ -113,9 +110,7 @@
 
   .title{
     padding: 5px;
-    /*border-bottom: 1px solid #fff;*/
     background: #000;
-    /*color: #fff;*/
     padding-bottom: 5px;
     padding-top: 5px;
     font-size: 16px;
@@ -130,7 +125,6 @@
   }
   .read .title{
     background: #222;
-    /*outline-top: 1px solid #000;*/
   }
 
   .article-expand{
@@ -138,15 +132,12 @@
     padding: 5px;
     padding-top: 10px;
     padding-bottom: 10px;
-
     padding-top: 1px;
-    /*font-family: nyt-imperial;*/
     font-weight: 300;
   }
 
   .expanded .article-expand{
     display: block;
-    /*background: white;*/
     background: #111;
   }
 

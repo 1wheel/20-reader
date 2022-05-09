@@ -54,7 +54,7 @@ updateFeeds()
 
 export async function get(req) {
   try {
-    var feed = Object.keys(req.url.searchParams)[0] || 'recent'
+    var feed = req.url.searchParams.get('feed') || 'recent'
     if (!feeds[feed].items.length) await updateFeeds()
 
     return {
