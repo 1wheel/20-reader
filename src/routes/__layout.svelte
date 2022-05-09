@@ -9,11 +9,11 @@
 
 <nav>
   <ul>
-    <li><a rel=prefetch class='{feed === "recent"  ? "selected" : ""}' href='/?feed=recent'>Most Recent</a></li>
+    <li><a rel="prefetch external" class='{feed === "recent"  ? "selected" : ""}' href='/?feed=recent'>Most Recent</a></li>
 
-    <li><a rel=prefetch class='{feed === "homepage"  ? "selected" : ""}' href='/?feed=homepage'>Homepage</a></li>
+    <li><a rel="prefetch external" class='{feed === "homepage"  ? "selected" : ""}' href='/?feed=homepage'>Homepage</a></li>
 
-    <li><a rel=prefetch class='{feed === "popular"  ? "selected" : ""}' href='/?feed=popular'>Popular</a></li>
+    <li><a rel="prefetch external" class='{feed === "popular"  ? "selected" : ""}' href='/?feed=popular'>Popular</a></li>
     
     <li><img id='t-logo' src='/t.png' alt='t-logo'></li>
   </ul>
