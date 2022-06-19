@@ -60,11 +60,11 @@
 
     posts = posts.slice()
 
-
     const node = event.target
     const isAbove = node.parentNode.getBoundingClientRect().top < 0
-    if (isAbove && !post.expanded) node.scrollIntoView(true)
-
+    if (isAbove && !post.expanded){
+      setTimeout(() => node.scrollIntoView(true), 0)
+    }
   }
 
   if (typeof window == 'undefined'){
