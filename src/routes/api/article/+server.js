@@ -77,22 +77,18 @@ async function getArticleText(url){
 getArticleText('https://www.nytimes.com/2022/05/07/pageoneplus/corrections-may-7-2022.html')
 
 
-export async function get(req) {
+export async function GET(req) {
   try {
     var url = req.url.searchParams.keys().next().value//.replace('www', 'mobile')
-
     var html = await getArticleText(url)
-
-    return {
-      header: {
-        'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept'
-      },
-      'Cache-Control': `max-age=${30 * 60 * 0}`, // cache for 30 minutes,
-      body: html
+    var headers = {
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept'
     }
+    return new Response(html, {headers})
   } catch (err) {
     console.log(err)
+    return new Response(err.message, {status: 500})
     return {
       status: 500,
       body: err.message,

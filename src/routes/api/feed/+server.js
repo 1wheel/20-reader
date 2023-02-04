@@ -52,21 +52,14 @@ setInterval(updateFeeds, 1000*60*5)
 updateFeeds()
 
 
-export async function get(req) {
+export async function GET(req) {
   try {
     var feed = req.url.searchParams.get('feed') || 'recent'
     if (!feeds[feed].items.length) await updateFeeds()
-
-    return {
-      'Content-Type': 'application/json',
-      body: JSON.stringify(feeds[feed].items)
-    }
+    return new Response(JSON.stringify(feeds[feed].items), {headers: {'content-type': 'application/json'}})
 
   } catch (err) {
     console.log(err)
-    return {
-      status: 500,
-      body: err.message,
-    }
+    return new Response(err.message, {status: 500})
   }
 }
