@@ -2,22 +2,22 @@
   "name": "my-app",
   "version": "0.0.1",
   "scripts": {
-    "dev": "svelte-kit dev --port=3001",
-    "build": "svelte-kit build",
-    "package": "svelte-kit package",
-    "preview": "svelte-kit preview --port=3001",
-    "prepare": "svelte-kit sync",
-    "pub": "./deploy.sh"
+    "dev": "vite dev",
+    "build": "vite build",
+    "preview": "vite --port=3001 preview"
   },
   "devDependencies": {
-    "@sveltejs/adapter-node": "next",
-    "@sveltejs/kit": "next",
-    "svelte": "^3.44.0"
+    "@fontsource/fira-mono": "^4.5.10",
+    "@neoconfetti/svelte": "^1.0.0",
+    "@sveltejs/adapter-auto": "^1.0.0",
+    "@sveltejs/kit": "^1.0.0",
+    "svelte": "^3.54.0",
+    "vite": "^4.0.0"
   },
-  "type": "module",
   "dependencies": {
-    "node-libcurl": "^2.3.4",
+    "node-libcurl": "3.0.0",
     "underscore": "^1.13.2",
     "xml2js": "^0.4.23"
-  }
+  },
+  "type": "module"
 }

@@ -1,7 +1,7 @@
 <script>
   import { onMount } from 'svelte'
 
-  export let posts
+  export let data
 
   function toggle(post){
     window.localStorage.setItem(post.key, new Date().toISOString())
@@ -9,7 +9,7 @@
     post.expanded = !post.expanded
     post.read = true
 
-    posts = posts.slice()
+    data.posts = data.posts.slice()
 
     const node = event.target
     const isAbove = node.parentNode.getBoundingClientRect().top < 0
@@ -26,19 +26,18 @@
   
 
   function decoratePosts(){
-    posts.forEach(post => {
+    data.posts.forEach(post => {
       post.key = post.link.split('.com')[1].split('.html')[0]
       post.read = window.localStorage.getItem(post.key)
     })
 
-    posts.forEach(async post => {
+    data.posts.forEach(async post => {
       fetch(post.apiLink).then(r => r.text()).then(html => {
         post.html = html
-        posts = posts.slice()
+        data.posts = data.posts.slice()
       })
     })
   }
-
 
 
 </script>
@@ -49,9 +48,12 @@
 </head>
 
 <div>
-  {#each posts as post (post.title)}
+  {#each data.posts as post (post.title)}
   <div class='article {post.expanded ? "expanded" : ""} {post.read ? "read" : ""}'>
-    <div class='title' on:click='{() => toggle(post)}'>
+    <div 
+      class='title' 
+      on:click='{() => toggle(post)}' 
+      on:keydown='{() => toggle(post)}'>
       {post.title}
     </div>
 
