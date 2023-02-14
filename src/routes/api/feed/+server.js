@@ -25,13 +25,14 @@ async function updateFeeds(){
     const xml = await response.text()
 
     var items = parseXML(xml).rss.channel[0].item
-    items.forEach(d => {
-      Object.keys(d).forEach(key => (d[key] = d[key][0]))
-
-      d.link = d.link.split('?')[0]
-    })
 
     if (items.length){ 
+      items.forEach(d => {
+        Object.keys(d).forEach(key => (d[key] = d[key][0]))
+
+        d.link = d.link.split('?')[0]
+      })
+
       feed.items = items
         .filter(d => !d.link.includes('nytimes.com/live/')) // https://www.nytimes.com/live/2020/iowa-democratic-caucus-01-26/caucusing-with-disability
         .filter(d => d.title)
