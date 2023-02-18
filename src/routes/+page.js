@@ -4,6 +4,8 @@ export async function load({fetch, url}){
   const feed = url.searchParams.get('feed') || 'recent'
 
   let posts = await (await fetch(`/api/feed?feed=${feed}`)).json()
+  if (!posts.length) posts = []
+
   posts.forEach((d, i) => {
     d.id = i
     d.i = i
@@ -39,6 +41,7 @@ export async function load({fetch, url}){
     return a.type < b.type ? -1 : a.type > b.type ? 1 : a.i - b.i
   })
 
-  return ({posts})
+  // TODO: why is this error happening? https://github.com/sveltejs/kit/discussions/7259
+  return ({posts: JSON.parse(JSON.stringify(posts))})
 }
 
