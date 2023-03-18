@@ -26,7 +26,7 @@ async function updateFeeds(){
 
     var items = parseXML(xml).rss.channel[0].item
 
-    if (items.length){ 
+    if (items?.length){ 
       items.forEach(d => {
         Object.keys(d).forEach(key => (d[key] = d[key][0]))
 
