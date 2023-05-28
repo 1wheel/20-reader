@@ -18,26 +18,30 @@ var feeds = {
 }
 
 async function updateFeeds(){
-  for (let feedKey in feeds){
-    let feed = feeds[feedKey]
+  try {
+    for (let feedKey in feeds){
+      let feed = feeds[feedKey]
 
-    const response = await fetch(feed.url)
-    const xml = await response.text()
+      const response = await fetch(feed.url)
+      const xml = await response.text()
 
-    var items = parseXML(xml).rss.channel[0].item
+      var items = parseXML(xml).rss.channel[0].item
 
-    if (items?.length){ 
-      items.forEach(d => {
-        Object.keys(d).forEach(key => (d[key] = d[key][0]))
+      if (items?.length){ 
+        items.forEach(d => {
+          Object.keys(d).forEach(key => (d[key] = d[key][0]))
 
-        d.link = d.link.split('?')[0]
-      })
+          d.link = d.link.split('?')[0]
+        })
 
-      feed.items = items
-        .filter(d => !d.link.includes('nytimes.com/live/')) // https://www.nytimes.com/live/2020/iowa-democratic-caucus-01-26/caucusing-with-disability
-        .filter(d => d.title)
-        .filter(d => !d.title.includes(': Your ') || !d.title.includes('Briefing'))
+        feed.items = items
+          .filter(d => !d.link.includes('nytimes.com/live/')) // https://www.nytimes.com/live/2020/iowa-democratic-caucus-01-26/caucusing-with-disability
+          .filter(d => d.title)
+          .filter(d => !d.title.includes(': Your ') || !d.title.includes('Briefing'))
+      }
     }
+  } catch(err){
+    console.log(err)
   }
 
 
