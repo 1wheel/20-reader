@@ -29,15 +29,20 @@ async function getArticleText(url){
   var {statusCode, data, headers} = await curly.get(url)
   var html = data
 
-  // const response = await fetch(url)
-
-
   var pStr = `{margin-bottom:0.9375rem;margin-top:0;}`
   var pClass = html
     .split(pStr)[0]
     .split('.')
     .slice(-1)[0]
   // console.log({pClass})
+
+  // var ulStr = `{list-style:none;margin-left:20px;margin-right:20px;width:`
+  // var ulClass = html
+  //   .split(ulStr)[0]
+  //   .split('.')
+  //   .slice(-1)[0]
+  // console.log({ulClass})
+
 
   var lines = html
     .split('<div id="after-bottom"><')[0]
@@ -48,6 +53,10 @@ async function getArticleText(url){
       /<h2 /g, 
       `<p class="${pClass}"> <h2 `
     )
+    // .replaceAll(
+    //   `<ul class="${ulClass} `,
+    //   `<p class="${pClass}"> <ul `
+    // )
     .replace(/<figure.+?figure>/g, '')
     .split(`<p class="${pClass}`)
     .slice(1)
@@ -61,11 +70,8 @@ async function getArticleText(url){
   lines = _.sortBy(lines, d => d.includes('[') && d.includes(']')  && d.includes('href') ? 1 : -1)
   lines = _.sortBy(lines, d => d.includes('toplinks-title') ? 1 : -1)
 
-
-
   // console.log(html.split('<p class="story-body-text').length)
   // console.log(lines.length)
-
 
   // var tempDir = '/Users/adampearce/Desktop/lib/20-reader/temp/'
   // fs.writeFileSync(tempDir + 'article.html', html) 
@@ -74,7 +80,7 @@ async function getArticleText(url){
   return articleCache[url] = lines.join('\n\n')
 }
 
-getArticleText('https://www.nytimes.com/2022/05/07/pageoneplus/corrections-may-7-2022.html')
+getArticleText('https://www.nytimes.com/2023/05/27/business/dealbook/unused-paid-time-off.html')
 
 
 export async function GET(req) {
