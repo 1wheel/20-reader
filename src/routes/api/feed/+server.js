@@ -25,8 +25,8 @@ async function updateFeeds(){
       const response = await fetch(feed.url)
       const xml = await response.text()
       try {
-        const parsed = parseXML(xml)
-        const items = parsed?.rss.channel[0].item
+        var parsed = parseXML(xml)
+        var items = parsed?.rss.channel[0].item
       } catch(err){
         console.log(err)
       }
