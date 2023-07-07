@@ -24,9 +24,12 @@ async function updateFeeds(){
 
       const response = await fetch(feed.url)
       const xml = await response.text()
-
-      var items = parseXML(xml).rss.channel[0].item
-
+      try {
+        const parsed = parseXML(xml)
+        const items = parsed?.rss.channel[0].item
+      } catch(err){
+        console.log(err)
+      }
       if (items?.length){ 
         items.forEach(d => {
           Object.keys(d).forEach(key => (d[key] = d[key][0]))
