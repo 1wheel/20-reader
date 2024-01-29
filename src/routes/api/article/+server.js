@@ -2,6 +2,7 @@ import * as fs from 'fs';
 import * as _ from 'underscore'
 
 import {curly} from 'node-libcurl'
+import { exec } from 'child_process';
 
 // cache articles for 10 min
 var articleCache = {}
@@ -29,11 +30,34 @@ async function getArticleText(url){
   var {statusCode, data, headers} = await curly.get(url)
   var html = data
 
-  var pStr = `{margin-bottom:0.9375rem;margin-top:0;}`
-  var pClass = html
-    .split(pStr)[0]
-    .split('.')
-    .slice(-1)[0]
+  // var res = await fetch(url)
+  // console.log(res)
+  // var html = await res.text()  
+
+  // var html = await curlUrl(url)
+  // fs.writeFileSync('/Users/zoia/1wheel/20-reader/temp/page-curl.html', html)
+
+  var jsonStr = html
+    .split('<script>window.__preloadedData = ')[1]
+    .split(';</script>')[0]
+    .replaceAll(':undefined', ':null')
+
+  var __preloadedData = JSON.parse(jsonStr)
+
+  var lines = __preloadedData.initialData.data.article.sprinkledBody.content
+    .filter(d => d.__typename == 'ParagraphBlock' && d.content)
+    .map(d => d.content[0]?.text)
+    .filter(d => d)
+    .map(d => `<p>${d}</p>`)
+
+  return articleCache[url] = lines.join('\n\n')
+
+
+  // var pStr = `{margin-bottom:0.9375rem;margin-top:0;}`
+  // var pClass = html
+  //   .split(pStr)[0]
+  //   .split('.')
+  //   .slice(-1)[0]
   // console.log({pClass})
 
   // var ulStr = `{list-style:none;margin-left:20px;margin-right:20px;width:`
@@ -44,31 +68,33 @@ async function getArticleText(url){
   // console.log({ulClass})
 
 
-  var lines = html
-    .split('<div id="after-bottom"><')[0]
-    .split('site-index-label')[0]
-    .split('g-electionguide-list-header')[0] // no 2020 footer
-    .replace(`h2 class="css-zd32qr e6u6ph31"`, 'div') // no promos
-    .replace(
-      /<h2 /g, 
-      `<p class="${pClass}"> <h2 `
-    )
-    // .replaceAll(
-    //   `<ul class="${ulClass} `,
-    //   `<p class="${pClass}"> <ul `
-    // )
-    .replace(/<figure.+?figure>/g, '')
-    .split(`<p class="${pClass}`)
-    .slice(1)
-    .map(d => d.split('>').slice(1).join('>').split('</p>')[0])
-    .map(d => `<p>${d}</p>`)
-    .filter(d => !d.includes('css-1uuihdo')) // remove promos
-    .filter(d => !d.includes('storyline-latest-updates'))
-    .filter(d => !d.includes('>Card 1 of'))
+  // var lines = html
+  //   .split('<div id="after-bottom"><')[0]
+  //   .split('site-index-label')[0]
+  //   // .split('g-electionguide-list-header')[0] // no 2020 footer
+  //   // .replace(`h2 class="css-zd32qr e6u6ph31"`, 'div') // no promos
+  //   .replace(
+  //     /<h2 /g, 
+  //     `<p class="${pClass}"> <h2 `
+  //   )
+  //   // .replaceAll(
+  //   //   `<ul class="${ulClass} `,
+  //   //   `<p class="${pClass}"> <ul `
+  //   // )
+  //   // .replace(/<figure.+?figure>/g, '')
+  //   .split(`<p class="${pClass}`)
+  //   .slice(1)
+  //   // .map(d => d.split('>').slice(1).join('>').split('</p>')[0])
+  //   // .map(d => `<p>${d}</p>`)
+  //   // // .filter(d => !d.includes('css-1uuihdo')) // remove promos
+  //   // .filter(d => !d.includes('storyline-latest-updates'))
+  //   // .filter(d => !d.includes('>Card 1 of'))
 
-  // intentional links to the end
-  lines = _.sortBy(lines, d => d.includes('[') && d.includes(']')  && d.includes('href') ? 1 : -1)
-  lines = _.sortBy(lines, d => d.includes('toplinks-title') ? 1 : -1)
+  // console.log(lines)
+
+  // // intentional links to the end
+  // lines = _.sortBy(lines, d => d.includes('[') && d.includes(']')  && d.includes('href') ? 1 : -1)
+  // lines = _.sortBy(lines, d => d.includes('toplinks-title') ? 1 : -1)
 
   // console.log(html.split('<p class="story-body-text').length)
   // console.log(lines.length)
@@ -80,8 +106,8 @@ async function getArticleText(url){
   return articleCache[url] = lines.join('\n\n')
 }
 
-getArticleText('https://www.nytimes.com/2023/05/27/business/dealbook/unused-paid-time-off.html')
-
+// getArticleText('https://www.nytimes.com/2023/05/27/business/dealbook/unused-paid-time-off.html')
+getArticleText('https://www.nytimes.com/2024/01/28/business/china-evergrande.html')
 
 export async function GET(req) {
   try {
