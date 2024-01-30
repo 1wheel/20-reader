@@ -1,7 +1,7 @@
 import * as fs from 'fs';
 import * as _ from 'underscore'
 
-// import {curly} from 'node-libcurl'
+import {curly} from 'node-libcurl'
 import {exec} from 'child_process'
 
 // cache articles for 10 min
@@ -28,7 +28,7 @@ async function getArticleText(url){
   await sleep(Math.random()*100)
 
   if (true){
-    var html = await curly.get(url).data
+    var html = (await curly.get(url)).data
   } else {
     var html = await curlUrl(url)
   }
@@ -41,7 +41,7 @@ async function getArticleText(url){
   var __preloadedData = JSON.parse(jsonStr)
   
   // fs.writeFileSync('/Users/zoia/1wheel/20-reader/temp/page-curl.html', html)
-  fs.writeFileSync('/Users/zoia/1wheel/20-reader/temp/page.json', JSON.stringify(__preloadedData, null, 2))
+  // fs.writeFileSync('/Users/zoia/1wheel/20-reader/temp/page.json', JSON.stringify(__preloadedData, null, 2))
 
   function imgHtml(media){
     return  `<img src='${media.crops[0].renditions[0].url}' style='width:100%'></img>
@@ -158,7 +158,7 @@ async function getArticleText(url){
 
 // getArticleText('https://www.nytimes.com/2023/05/27/business/dealbook/unused-paid-time-off.html')
 // getArticleText('https://www.nytimes.com/2024/01/29/briefing/drone-deaths-jordan-president-biden-campaign.html')
-getArticleText('https://www.nytimes.com/2024/01/29/world/middleeast/unrwa-israel-gaza-terrorism.html')
+// getArticleText('https://www.nytimes.com/2024/01/29/world/middleeast/unrwa-israel-gaza-terrorism.html')
   
 export async function GET(req) {
   try {
