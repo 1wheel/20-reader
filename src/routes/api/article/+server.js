@@ -1,8 +1,8 @@
 import * as fs from 'fs';
 import * as _ from 'underscore'
 
-import {curly} from 'node-libcurl'
-import { exec } from 'child_process';
+// import {curly} from 'node-libcurl'
+import {exec} from 'child_process'
 
 // cache articles for 10 min
 var articleCache = {}
@@ -27,15 +27,11 @@ async function getArticleText(url){
   if (articleCache[url]) return articleCache[url]
   await sleep(Math.random()*100)
 
-  var {statusCode, data, headers} = await curly.get(url)
-  var html = data
-
-  // var res = await fetch(url)
-  // console.log(res)
-  // var html = await res.text()  
-
-  // var html = await curlUrl(url)
-  // fs.writeFileSync('/Users/zoia/1wheel/20-reader/temp/page-curl.html', html)
+  if (true){
+    var html = await curly.get(url).data
+  } else {
+    var html = await curlUrl(url)
+  }
 
   var jsonStr = html
     .split('<script>window.__preloadedData = ')[1]
@@ -43,11 +39,65 @@ async function getArticleText(url){
     .replaceAll(':undefined', ':null')
 
   var __preloadedData = JSON.parse(jsonStr)
+  
+  // fs.writeFileSync('/Users/zoia/1wheel/20-reader/temp/page-curl.html', html)
+  fs.writeFileSync('/Users/zoia/1wheel/20-reader/temp/page.json', JSON.stringify(__preloadedData, null, 2))
+
+  function imgHtml(media){
+    return  `<img src='${media.crops[0].renditions[0].url}' style='width:100%'></img>
+          <p style='margin-top:-20px;font-size:9px'>${media.legacyHtmlCaption}</p>`
+  }
+
+  function renderBlock(d){
+    var rv = ''
+
+    if (d.__typename == 'ParagraphBlock'){
+      rv += '<p>'
+      d.content.forEach(d => {
+        if (!d.formats) return
+        if (d.formats.length == 0){
+          rv += d.text
+        // TODO: split off to handle <p> wrapping?
+        } else if (d.formats[0].__typename == 'BoldFormat'){
+          rv += `<b>${d.text}</b>`
+        } else if (d.formats[0].__typename == 'ItalicFormat'){
+          rv += `<i>${d.text}</i>`
+        } else if (d.formats[0].__typename == 'LinkFormat'){
+          rv += `<a href='${d.formats[0].url}'>${d.text}</a>`
+        } else{
+          console.log(d.formats[0].__typename)
+        }
+      })
+      rv += '</p>'
+    } else if (d.__typename.includes('Heading')){
+      rv += `<b>${d.content[0].text}</b>`
+    } else if (d.__typename == 'ListBlock'){
+      rv += `<ul>${d.content.map(renderBlock).join('\n')}</ul>` 
+    } else if (d.__typename == 'ListItemBlock'){
+      rv += `<li>${d.content.map(renderBlock).join('\n')}</li>` 
+    } else if (d.__typename == 'BlockquoteBlock'){
+      rv += `<blockquote>${d.content.map(renderBlock).join('\n')}</blockquote>` 
+    } else if (d.__typename == 'ImageBlock'){ 
+      rv += imgHtml(d.media)
+    } else if (d.__typename == 'DiptychBlock'){ 
+      rv += imgHtml(d.imageOne)
+      rv += imgHtml(d.imageTwo)
+    } else if (['Dropzone', 'RuleBlock', 'HeaderBasicBlock', 'EmailSignupBlock', 'RelatedLinksBlock', 'DetailBlock', 'HeaderFullBleedHorizontalBlock'].includes(d.__typename)){
+    } else {
+      rv += `<span style='font-family:monospace'>${JSON.stringify(d, null, 2)}</span>`
+      // CapsuleBlock
+      // ListBlock
+      // DetailBlock
+      // BlockquoteBlock
+      console.log(d.__typename)
+    }
+
+    return rv
+  }
 
   var lines = __preloadedData.initialData.data.article.sprinkledBody.content
-    .filter(d => d.__typename == 'ParagraphBlock' && d.content)
-    .map(d => d.content[0]?.text)
-    .filter(d => d)
+    .map(renderBlock)
+    .filter(d => d != '')
     .map(d => `<p>${d}</p>`)
 
   return articleCache[url] = lines.join('\n\n')
@@ -107,8 +157,9 @@ async function getArticleText(url){
 }
 
 // getArticleText('https://www.nytimes.com/2023/05/27/business/dealbook/unused-paid-time-off.html')
-getArticleText('https://www.nytimes.com/2024/01/28/business/china-evergrande.html')
-
+// getArticleText('https://www.nytimes.com/2024/01/29/briefing/drone-deaths-jordan-president-biden-campaign.html')
+getArticleText('https://www.nytimes.com/2024/01/29/world/middleeast/unrwa-israel-gaza-terrorism.html')
+  
 export async function GET(req) {
   try {
     var url = req.url.searchParams.keys().next().value//.replace('www', 'mobile')

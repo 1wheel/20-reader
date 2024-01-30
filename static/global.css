@@ -59,3 +59,12 @@ a {
 		right: -15px;
 	}
 }
+
+
+.article {
+	blockquote{
+    border-left: 1px solid #F48A1F;
+    padding-left: 5px;
+    margin-left: 3px;
+	}
+}
