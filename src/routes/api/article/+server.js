@@ -45,7 +45,7 @@ async function getArticleText(url){
 
   function imgHtml(media){
     return  `<img src='${media.crops[0].renditions[0].url}' style='width:100%'></img>
-          <p style='margin-top:-20px;font-size:9px'>${media.legacyHtmlCaption}</p>`
+          <p style='margin-top:-20px;font-size:10px'>${media.legacyHtmlCaption}</p>`
   }
 
   function renderBlock(d){
@@ -84,7 +84,7 @@ async function getArticleText(url){
       rv += imgHtml(d.imageTwo)
     } else if (['Dropzone', 'RuleBlock', 'HeaderBasicBlock', 'EmailSignupBlock', 'RelatedLinksBlock', 'DetailBlock', 'HeaderFullBleedHorizontalBlock'].includes(d.__typename)){
     } else {
-      rv += `<span style='font-family:monospace'>${JSON.stringify(d, null, 2)}</span>`
+      rv += `<span style='font-family:monospace;font-size:10px;'>${JSON.stringify(d, null, 2).slice(0, 128)}</span>`
       // CapsuleBlock
       // ListBlock
       // DetailBlock
