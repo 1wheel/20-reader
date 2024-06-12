@@ -95,12 +95,18 @@ async function getArticleText(url){
     return rv
   }
 
-  var lines = __preloadedData.initialData.data.article.sprinkledBody.content
-    .map(renderBlock)
-    .filter(d => d != '')
-    .map(d => `<p>${d}</p>`)
+  try {
+    var lines = __preloadedData.initialData.data.article.sprinkledBody.content
+      .map(renderBlock)
+      .filter(d => d != '')
+      .map(d => `<p>${d}</p>`)
 
-  return articleCache[url] = lines.join('\n\n')
+    return articleCache[url] = lines.join('\n\n')
+  } catch {
+    return '' 
+  }
+
+  
 
 
   // var pStr = `{margin-bottom:0.9375rem;margin-top:0;}`

@@ -16,7 +16,7 @@
     "vite": "^4.0.0"
   },
   "dependencies": {
-    "node-libcurl": "3.0.0",
+    "node-libcurl": "4.0.0",
     "underscore": "^1.13.2",
     "xml2js": "^0.4.23"
   },
