@@ -23,7 +23,6 @@ function sleep(ms) {
 }
 
 async function getArticleText(url){
-  
   if (articleCache[url]) return articleCache[url]
   await sleep(Math.random()*100)
 
@@ -32,16 +31,26 @@ async function getArticleText(url){
   } else {
     var html = await curlUrl(url)
   }
-
-  var jsonStr = html
-    .split('<script>window.__preloadedData = ')[1]
-    .split(';</script>')[0]
-    .replaceAll(':undefined', ':null')
-
-  var __preloadedData = JSON.parse(jsonStr)
-  
   // fs.writeFileSync('/Users/zoia/1wheel/20-reader/temp/page-curl.html', html)
-  // fs.writeFileSync('/Users/zoia/1wheel/20-reader/temp/page.json', JSON.stringify(__preloadedData, null, 2))
+
+  try {
+    var jsonStr = html
+      .split('<script>window.__preloadedData = ')[1]
+      .split(';</script>')[0]
+      .replaceAll(':undefined', ':null')
+
+    var __preloadedData = JSON.parse(jsonStr)
+    // fs.writeFileSync('/Users/zoia/1wheel/20-reader/temp/page.json', JSON.stringify(__preloadedData, null, 2))
+
+    var lines = __preloadedData.initialData.data.article.sprinkledBody.content
+      .map(renderBlock)
+      .filter(d => d != '')
+      .map(d => `<p>${d}</p>`)
+
+    return articleCache[url] = lines.join('\n\n')
+  } catch {
+    return '' 
+  }
 
   function imgHtml(media){
     return  `<img src='${media.crops[0].renditions[0].url}' style='width:100%'></img>
@@ -82,7 +91,7 @@ async function getArticleText(url){
     } else if (d.__typename == 'DiptychBlock'){ 
       rv += imgHtml(d.imageOne)
       rv += imgHtml(d.imageTwo)
-    } else if (['Dropzone', 'RuleBlock', 'HeaderBasicBlock', 'EmailSignupBlock', 'RelatedLinksBlock', 'DetailBlock', 'HeaderFullBleedHorizontalBlock'].includes(d.__typename)){
+    } else if (['Dropzone', 'RuleBlock', 'HeaderBasicBlock', 'EmailSignupBlock', 'RelatedLinksBlock', 'DetailBlock', 'HeaderFullBleedVerticalBlock', 'HeaderFullBleedHorizontalBlock'].includes(d.__typename)){
     } else {
       rv += `<span style='font-family:monospace;font-size:10px;'>${JSON.stringify(d, null, 2).slice(0, 128)}</span>`
       // CapsuleBlock
@@ -95,18 +104,7 @@ async function getArticleText(url){
     return rv
   }
 
-  try {
-    var lines = __preloadedData.initialData.data.article.sprinkledBody.content
-      .map(renderBlock)
-      .filter(d => d != '')
-      .map(d => `<p>${d}</p>`)
 
-    return articleCache[url] = lines.join('\n\n')
-  } catch {
-    return '' 
-  }
-
-  
 
 
   // var pStr = `{margin-bottom:0.9375rem;margin-top:0;}`
@@ -158,8 +156,8 @@ async function getArticleText(url){
   // var tempDir = '/Users/adampearce/Desktop/lib/20-reader/temp/'
   // fs.writeFileSync(tempDir + 'article.html', html) 
   // fs.writeFileSync(tempDir + 'lines.html', lines.join('\n\n')) 
-
-  return articleCache[url] = lines.join('\n\n')
+  
+  // return articleCache[url] = lines.join('\n\n')
 }
 
 // getArticleText('https://www.nytimes.com/2023/05/27/business/dealbook/unused-paid-time-off.html')
