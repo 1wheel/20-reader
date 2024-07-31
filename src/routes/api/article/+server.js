@@ -91,7 +91,7 @@ async function getArticleText(url){
     } else if (d.__typename == 'DiptychBlock'){ 
       rv += imgHtml(d.imageOne)
       rv += imgHtml(d.imageTwo)
-    } else if (['Dropzone', 'RuleBlock', 'HeaderBasicBlock', 'EmailSignupBlock', 'RelatedLinksBlock', 'DetailBlock', 'HeaderFullBleedVerticalBlock', 'HeaderFullBleedHorizontalBlock'].includes(d.__typename)){
+    } else if (['Dropzone', 'RuleBlock', 'HeaderBasicBlock', 'EmailSignupBlock', 'RelatedLinksBlock', 'DetailBlock', 'HeaderFullBleedVerticalBlock', 'HeaderFullBleedHorizontalBlock', 'BylineBlock', 'CapsuleBlock'].includes(d.__typename)){
     } else {
       rv += `<span style='font-family:monospace;font-size:10px;'>${JSON.stringify(d, null, 2).slice(0, 128)}</span>`
       // CapsuleBlock
