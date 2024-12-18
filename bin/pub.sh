@@ -6,7 +6,5 @@ ssh demo@roadtolarissa.com <<'ENDSSH'
   #commands to run on remote host
   cd 20-reader/ \
   && yarn \
-  && kill -9 $(lsof -t -i:3001 -sTCP:LISTEN)
-
-  yarn run build && yarn run preview
+  && bin/forever.sh
 ENDSSH
